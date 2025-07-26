@@ -55,7 +55,7 @@ public final class FloatStatistics implements Statistics<Float> {
      */
     @Override
     public String getStatistics(String ...params) {
-        String title = "СТАТИСТИКА ПО ВЕЩЕСТВУННЫМ ЧИСЛАМ: ";
+        String title = "СТАТИСТИКА ПО ВЕЩЕСТВЕННЫМ ЧИСЛАМ: ";
         List<String> paramList = Arrays.stream(params).toList();
         if (
                 paramList.contains("-f") ||
