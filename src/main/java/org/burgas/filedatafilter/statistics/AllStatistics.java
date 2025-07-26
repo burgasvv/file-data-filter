@@ -1,10 +1,13 @@
 package org.burgas.filedatafilter.statistics;
 
+import org.burgas.filedatafilter.exception.AddReaderFailedException;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.io.IoFileLibrary;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+
+import static org.burgas.filedatafilter.message.AllStatisticsMessages.ADD_READER_FAILED;
 
 /**
  * Класс для сбора всей статистики
@@ -40,11 +43,17 @@ public final class AllStatistics {
      * Чтение с файлов распределения данных и получение статистики по строковым, вещественным и целочисленным типам данных;
      * @return получение статистики в виде строки;
      */
-    public String getStatistics() throws FileNotFoundException {
+    public String getStatistics() {
         String strings = this.argumentHandler.getOutputFilePathsMap().get("strings");
         String integers = this.argumentHandler.getOutputFilePathsMap().get("integers");
         String floats = this.argumentHandler.getOutputFilePathsMap().get("floats");
-        this.ioFileLibrary.addReaders(List.of(strings, integers, floats));
+
+        try {
+            this.ioFileLibrary.addReaders(List.of(strings, integers, floats));
+
+        } catch (FileNotFoundException e) {
+            throw new AddReaderFailedException(ADD_READER_FAILED.getMessage());
+        }
 
         this.ioFileLibrary.getReaders().get(strings).lines().forEach(this.stringStatistics::add);
         this.ioFileLibrary.getReaders().get(integers).lines().forEach(s -> this.longStatistics.add(Long.parseLong(s)));
