@@ -3,7 +3,7 @@ package org.burgas.filedatafilter;
 import org.burgas.filedatafilter.exception.ArgumentsNotFoundException;
 import org.burgas.filedatafilter.filter.FileDataFilter;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
-import org.burgas.filedatafilter.io.IoFileLibrary;
+import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 import org.burgas.filedatafilter.statistics.AllStatistics;
 
 import java.io.IOException;
@@ -34,14 +34,14 @@ public final class Main {
 
         argumentHandler.handleArgs(args);
 
-        IoFileLibrary ioFileLibrary = new IoFileLibrary();
+        ReadWriteFileApi readWriteFileApi = new ReadWriteFileApi();
 
-        FileDataFilter fileFilter = new FileDataFilter(argumentHandler, ioFileLibrary);
+        FileDataFilter fileFilter = new FileDataFilter(argumentHandler, readWriteFileApi);
         fileFilter.filter();
 
-        ioFileLibrary.removeReaders(argumentHandler.getInputFilePaths());
+        readWriteFileApi.removeReaders(argumentHandler.getInputFilePaths());
 
-        AllStatistics allStatistics = new AllStatistics(argumentHandler, ioFileLibrary);
+        AllStatistics allStatistics = new AllStatistics(argumentHandler, readWriteFileApi);
         out.println(allStatistics.getStatistics());
 
         long end = currentTimeMillis();

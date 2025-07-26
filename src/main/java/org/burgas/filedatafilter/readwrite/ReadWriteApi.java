@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.io;
+package org.burgas.filedatafilter.readwrite;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,7 +6,7 @@ import java.io.BufferedWriter;
 /**
  * Интерфейс для работы с файлами и потоками чтения и записи;
  */
-public sealed interface IoLibrary permits IoFileLibrary {
+public sealed interface ReadWriteApi permits ReadWriteFileApi {
 
     /**
      * Метод добавления потока для чтения;

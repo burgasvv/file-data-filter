@@ -2,7 +2,7 @@ package org.burgas.filedatafilter.statistics;
 
 import org.burgas.filedatafilter.exception.AddReaderFailedException;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
-import org.burgas.filedatafilter.io.IoFileLibrary;
+import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -22,7 +22,7 @@ public final class AllStatistics {
     /**
      * Ссылка на объект для чтения и записи файлов;
      */
-    private final IoFileLibrary ioFileLibrary;
+    private final ReadWriteFileApi readWriteFileApi;
 
     /**
      * Ссылки на объекты статистики разных типов данных;
@@ -31,9 +31,9 @@ public final class AllStatistics {
     private final LongStatistics longStatistics;
     private final FloatStatistics floatStatistics;
 
-    public AllStatistics(final ArgumentHandler argumentHandler, IoFileLibrary ioFileLibrary) {
+    public AllStatistics(final ArgumentHandler argumentHandler, ReadWriteFileApi readWriteFileApi) {
         this.argumentHandler = argumentHandler;
-        this.ioFileLibrary = ioFileLibrary;
+        this.readWriteFileApi = readWriteFileApi;
         this.stringStatistics = new StringStatistics();
         this.longStatistics = new LongStatistics();
         this.floatStatistics = new FloatStatistics();
@@ -49,15 +49,15 @@ public final class AllStatistics {
         String floats = this.argumentHandler.getOutputFilePathsMap().get("floats");
 
         try {
-            this.ioFileLibrary.addReaders(List.of(strings, integers, floats));
+            this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
 
         } catch (FileNotFoundException e) {
             throw new AddReaderFailedException(ADD_READER_FAILED.getMessage());
         }
 
-        this.ioFileLibrary.getReaders().get(strings).lines().forEach(this.stringStatistics::add);
-        this.ioFileLibrary.getReaders().get(integers).lines().forEach(s -> this.longStatistics.add(Long.parseLong(s)));
-        this.ioFileLibrary.getReaders().get(floats).lines().forEach(s -> this.floatStatistics.add(Float.parseFloat(s)));
+        this.readWriteFileApi.getReaders().get(strings).lines().forEach(this.stringStatistics::add);
+        this.readWriteFileApi.getReaders().get(integers).lines().forEach(s -> this.longStatistics.add(Long.parseLong(s)));
+        this.readWriteFileApi.getReaders().get(floats).lines().forEach(s -> this.floatStatistics.add(Float.parseFloat(s)));
 
         return "\n" + this.stringStatistics.getStatistics(this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics()) + "\n\n" +
                this.longStatistics

@@ -1,17 +1,17 @@
 package org.burgas.filedatafilter.message;
 
 /**
- * Перечисление сообщений относящихся к классу IoFileLibrary
- * @see org.burgas.filedatafilter.io.IoFileLibrary
+ * Перечисление сообщений относящихся к классу ReadWriteFileApi
+ * @see org.burgas.filedatafilter.readwrite.ReadWriteFileApi
  */
-public enum IoFileLibraryMessages {
+public enum ReadWriteFileApiMessages {
 
     REMOVE_READER_FAILED("Не удалось удалить поток чтения"),
     REMOVE_WRITER_FAILED("Не удалось удалить поток записи");
 
     private final String message;
 
-    IoFileLibraryMessages(String message) {
+    ReadWriteFileApiMessages(String message) {
         this.message = message;
     }
 

@@ -1,7 +1,7 @@
 package org.burgas.filedatafilter.filter;
 
 import org.burgas.filedatafilter.handler.ArgumentHandler;
-import org.burgas.filedatafilter.io.IoFileLibrary;
+import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,16 +25,16 @@ public final class FileDataFilter implements DataFilter {
     /**
      * Ссылка на объект для чтения и записи файлов;
      */
-    private final IoFileLibrary ioFileLibrary;
+    private final ReadWriteFileApi readWriteFileApi;
 
     /**
      * Конструктор для создания объектов и добавления файлов для считывания данных и дальнейшей обработки;
      * @throws FileNotFoundException исключение, получаемое при отсутствии файлов для считывания;
      */
-    public FileDataFilter(final ArgumentHandler argumentHandler, final IoFileLibrary ioFileLibrary) throws FileNotFoundException {
+    public FileDataFilter(final ArgumentHandler argumentHandler, final ReadWriteFileApi readWriteFileApi) throws FileNotFoundException {
         this.argumentHandler = argumentHandler;
-        this.ioFileLibrary = ioFileLibrary;
-        this.ioFileLibrary.addReaders(argumentHandler.getInputFilePaths());
+        this.readWriteFileApi = readWriteFileApi;
+        this.readWriteFileApi.addReaders(argumentHandler.getInputFilePaths());
     }
 
     /**
@@ -46,13 +46,13 @@ public final class FileDataFilter implements DataFilter {
     private void writeToFile(String filename, String content)
             throws IOException {
 
-        if (this.ioFileLibrary.getWriters().containsKey(filename))
-            this.ioFileLibrary.write(filename, content);
+        if (this.readWriteFileApi.getWriters().containsKey(filename))
+            this.readWriteFileApi.write(filename, content);
 
         else {
-            BufferedWriter fileWriter = this.ioFileLibrary.createFileWriter(filename, this.argumentHandler.isFileWriteAppend());
-            this.ioFileLibrary.addWriter(filename, fileWriter);
-            this.ioFileLibrary.write(filename, content);
+            BufferedWriter fileWriter = this.readWriteFileApi.createFileWriter(filename, this.argumentHandler.isFileWriteAppend());
+            this.readWriteFileApi.addWriter(filename, fileWriter);
+            this.readWriteFileApi.write(filename, content);
         }
     }
 
@@ -64,7 +64,7 @@ public final class FileDataFilter implements DataFilter {
     public void filter() throws IOException {
         Map<String, String> resultPathMap = this.argumentHandler.getOutputFilePathsMap();
 
-        for (Map.Entry<String, BufferedReader> entry : this.ioFileLibrary.getReaders().entrySet()) {
+        for (Map.Entry<String, BufferedReader> entry : this.readWriteFileApi.getReaders().entrySet()) {
             BufferedReader reader = entry.getValue();
 
             while (reader.ready()) {

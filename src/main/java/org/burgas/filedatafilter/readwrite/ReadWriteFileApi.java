@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.io;
+package org.burgas.filedatafilter.readwrite;
 
 import org.burgas.filedatafilter.exception.RemoveReaderOrWriterException;
 
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.System.out;
-import static org.burgas.filedatafilter.message.IoFileLibraryMessages.REMOVE_READER_FAILED;
-import static org.burgas.filedatafilter.message.IoFileLibraryMessages.REMOVE_WRITER_FAILED;
+import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.REMOVE_READER_FAILED;
+import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.REMOVE_WRITER_FAILED;
 
 /**
  * Класс реализации для работы с файлами и потоками чтения и записи;
  */
-public final class IoFileLibrary implements IoLibrary {
+public final class ReadWriteFileApi implements ReadWriteApi {
 
     /**
      * Ассоциативный массив, содержащий потоки для чтения;
