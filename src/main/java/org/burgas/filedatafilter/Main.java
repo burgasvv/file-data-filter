@@ -30,7 +30,7 @@ public final class Main {
             throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
 
         out.println(ARGUMENTS_RECEIVED_SUCCESSFULLY.getMessage());
-        out.printf(ARGUMENTS.getMessage(), Arrays.toString(args) + "\n");
+        out.printf(ARGUMENTS.getMessage(), Arrays.toString(args) + "\n\n");
 
         argumentHandler.handleArgs(args);
 

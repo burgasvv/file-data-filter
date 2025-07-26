@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public sealed interface DataFilter permits FileDataFilter {
 
-    void filter() throws IOException;
+    void filter() throws IOException, InterruptedException;
 }
