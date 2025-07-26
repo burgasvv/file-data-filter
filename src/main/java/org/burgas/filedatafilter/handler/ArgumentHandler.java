@@ -13,7 +13,7 @@ import static java.lang.System.out;
 import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.FILE_NOT_FOUND;
 
 /**
- * Класс обработки аргументов для чтения и записи;
+ * Класс обработки аргументов программы добавленных через командную строку для чтения и записи;
  */
 public final class ArgumentHandler {
 

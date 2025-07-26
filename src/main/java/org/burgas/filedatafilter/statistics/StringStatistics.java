@@ -62,12 +62,12 @@ public final class StringStatistics implements Statistics<String> {
                 (paramList.contains("-s") && paramList.contains("-f"))
         )
             return title +
-                   "\nКоличество записанных элементов: " + getStrings().size() +
-                   "\nСамая короткая строка: " + getMinLengthString() +
-                   "\nСамая длинная строка: " + getMaxLengthString();
+                   "\nКоличество записанных элементов: " + this.getStrings().size() +
+                   "\nСамая короткая строка: " + this.getMinLengthString() +
+                   "\nСамая длинная строка: " + this.getMaxLengthString();
 
         else if (paramList.contains("-s"))
-            return title + "\nКоличество записанных элементов: " + getStrings().size();
+            return title + "\nКоличество записанных элементов: " + this.getStrings().size();
 
         else
             return title + "Отсутствуют аргументы получения статистики";

@@ -62,15 +62,15 @@ public final class LongStatistics implements Statistics<Long> {
                 (paramList.contains("-s") && paramList.contains("-f"))
         )
             return title +
-                   "\nКоличество записанных элементов: " + getValues().size() +
-                   "\nМаксимальное значение: " + getLongMax() +
-                   "\nМинимальное значение: " + getLongMin() +
-                   "\nСреднее значение: " + getLongAverage() +
-                   "\nСумма записанных элементов: " + getLongSum();
+                   "\nКоличество записанных элементов: " + this.getValues().size() +
+                   "\nМаксимальное значение: " + this.getLongMax() +
+                   "\nМинимальное значение: " + this.getLongMin() +
+                   "\nСреднее значение: " + this.getLongAverage() +
+                   "\nСумма записанных элементов: " + this.getLongSum();
 
         else if (paramList.contains("-s"))
             return title +
-                   "\nКоличество записанных элементов: " + getValues().size();
+                   "\nКоличество записанных элементов: " + this.getValues().size();
 
         else
             return title + "Отсутствуют аргументы получения статистики";

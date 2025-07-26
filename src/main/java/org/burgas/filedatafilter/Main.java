@@ -3,6 +3,8 @@ package org.burgas.filedatafilter;
 import org.burgas.filedatafilter.exception.ArgumentsNotFoundException;
 import org.burgas.filedatafilter.filter.FileDataFilter;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
+import org.burgas.filedatafilter.io.IoFileLibrary;
+import org.burgas.filedatafilter.statistics.AllStatistics;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,19 +26,23 @@ public final class Main {
         ArgumentHandler argumentHandler = new ArgumentHandler();
         boolean inputFiles = argumentHandler.isInputFiles(args);
 
-        if (inputFiles) {
-
-            out.println(ARGUMENTS_RECEIVED_SUCCESSFULLY.getMessage());
-            out.printf(ARGUMENTS.getMessage(), Arrays.toString(args) + "\n");
-
-            argumentHandler.handleArgs(args);
-            FileDataFilter fileFilter = new FileDataFilter(argumentHandler);
-            fileFilter.filter();
-
-            out.println(fileFilter.getAllStatistics().getStatistics());
-
-        } else
+        if (!inputFiles)
             throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
+
+        out.println(ARGUMENTS_RECEIVED_SUCCESSFULLY.getMessage());
+        out.printf(ARGUMENTS.getMessage(), Arrays.toString(args) + "\n");
+
+        argumentHandler.handleArgs(args);
+
+        IoFileLibrary ioFileLibrary = new IoFileLibrary();
+
+        FileDataFilter fileFilter = new FileDataFilter(argumentHandler, ioFileLibrary);
+        fileFilter.filter();
+
+        ioFileLibrary.removeReaders(argumentHandler.getInputFilePaths());
+
+        AllStatistics allStatistics = new AllStatistics(argumentHandler, ioFileLibrary);
+        out.println(allStatistics.getStatistics());
 
         long end = currentTimeMillis();
         out.println("\nОтработка в миллисекундах: " + (end - start));

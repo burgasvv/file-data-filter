@@ -62,11 +62,11 @@ public final class FloatStatistics implements Statistics<Float> {
                 (paramList.contains("-s") && paramList.contains("-f"))
         )
             return title +
-                   "\nКоличество записанных элементов: " + getValues().size() +
-                   "\nМаксимальное значение: " + getFloatMax() +
-                   "\nМинимальное значение: " + getFloatMin() +
-                   "\nСреднее значение: " + getFloatAverage() +
-                   "\nСумма записанных элементов: " + getFloatSum();
+                   "\nКоличество записанных элементов: " + this.getValues().size() +
+                   "\nМаксимальное значение: " + this.getFloatMax() +
+                   "\nМинимальное значение: " + this.getFloatMin() +
+                   "\nСреднее значение: " + this.getFloatAverage() +
+                   "\nСумма записанных элементов: " + this.getFloatSum();
 
         else if (paramList.contains("-s"))
             return title +

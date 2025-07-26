@@ -100,13 +100,22 @@ public final class IoFileLibrary implements IoLibrary {
     }
 
     /**
-     * Метод добавления списка файлов для чтения в ассоциативный массив
+     * Метод добавления списка файлов для чтения в ассоциативный массив;
      * @param fileNames список местоположений и наименований файлов на носителе;
      * @throws FileNotFoundException исключение, получаемое по причине отсутствия файла по заданному пути;
      */
     public void addReaders(final List<String> fileNames) throws FileNotFoundException {
         for (String fileName : fileNames)
             this.addReader(fileName, this.createFileReader(fileName));
+    }
+
+    /**
+     * Метод удаления списка файлов для чтения из ассоциативного массива;
+     * @param fileNames список местоположений и наименований файлов на носителе;
+     */
+    public void removeReaders(final List<String> fileNames) {
+        for (String fileName : fileNames)
+            this.removeReader(fileName);
     }
 
     /**

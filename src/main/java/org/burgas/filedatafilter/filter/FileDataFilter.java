@@ -2,7 +2,6 @@ package org.burgas.filedatafilter.filter;
 
 import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.io.IoFileLibrary;
-import org.burgas.filedatafilter.statistics.AllStatistics;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -28,25 +27,14 @@ public final class FileDataFilter implements DataFilter {
      */
     private final IoFileLibrary ioFileLibrary;
 
-    private final AllStatistics allStatistics;
-
     /**
      * Конструктор для создания объектов и добавления файлов для считывания данных и дальнейшей обработки;
      * @throws FileNotFoundException исключение, получаемое при отсутствии файлов для считывания;
      */
-    public FileDataFilter(final ArgumentHandler argumentHandler) throws FileNotFoundException {
+    public FileDataFilter(final ArgumentHandler argumentHandler, final IoFileLibrary ioFileLibrary) throws FileNotFoundException {
         this.argumentHandler = argumentHandler;
-        this.allStatistics = new AllStatistics(this.argumentHandler);
-        this.ioFileLibrary = new IoFileLibrary();
+        this.ioFileLibrary = ioFileLibrary;
         this.ioFileLibrary.addReaders(argumentHandler.getInputFilePaths());
-    }
-
-    /**
-     * Метод получения всей статистики по всем типам данных
-     * @return объект получения данных
-     */
-    public AllStatistics getAllStatistics() {
-        return this.allStatistics;
     }
 
     /**
@@ -84,18 +72,15 @@ public final class FileDataFilter implements DataFilter {
 
                 try {
                     long aLong = Long.parseLong(line);
-                    this.allStatistics.getLongStatistics().add(aLong);
                     this.writeToFile(resultPathMap.get("integers"), valueOf(aLong));
 
                 } catch (NumberFormatException e) {
 
                     try {
                         float aFloat = Float.parseFloat(line);
-                        this.allStatistics.getFloatStatistics().add(aFloat);
                         this.writeToFile(resultPathMap.get("floats"), valueOf(aFloat));
 
                     } catch (NumberFormatException e2) {
-                        this.allStatistics.getStringStatistics().add(line);
                         this.writeToFile(resultPathMap.get("strings"), line);
                     }
                 }
