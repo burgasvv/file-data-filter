@@ -27,15 +27,15 @@ public final class AllStatistics {
     }
 
     public StringStatistics getStringStatistics() {
-        return stringStatistics;
+        return this.stringStatistics;
     }
 
     public LongStatistics getLongStatistics() {
-        return longStatistics;
+        return this.longStatistics;
     }
 
     public FloatStatistics getFloatStatistics() {
-        return floatStatistics;
+        return this.floatStatistics;
     }
 
     /**
