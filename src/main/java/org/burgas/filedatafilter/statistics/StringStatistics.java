@@ -78,7 +78,7 @@ public final class StringStatistics implements Statistics<String> {
      * @return получение элемента с наименьшей длиной;
      */
     public Integer getMinLengthString() {
-        return this.strings.stream()
+        return this.strings.parallelStream()
                 .mapToInt(String::length)
                 .min()
                 .orElse(0);
@@ -89,7 +89,7 @@ public final class StringStatistics implements Statistics<String> {
      * @return получение элемента с наименьшей длиной;
      */
     public Integer getMaxLengthString() {
-        return this.strings.stream()
+        return this.strings.parallelStream()
                 .mapToInt(String::length)
                 .max()
                 .orElse(0);

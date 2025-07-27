@@ -81,7 +81,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return минимальный элемент в списке;
      */
     public Double getDoubleMin() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .min(Double::compareTo)
                 .orElse(0.0);
     }
@@ -91,7 +91,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return максимальный элемент в списке;
      */
     public Double getDoubleMax() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .max(Double::compareTo)
                 .orElse(0.0);
     }
@@ -101,7 +101,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return средний элемент в списке;
      */
     public Double getDoubleAverage() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .mapToDouble(value -> value)
                 .average()
                 .orElse(0.0);
@@ -112,7 +112,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return сумма элементов списка вещественных чисел;
      */
     public Double getDoubleSum() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }

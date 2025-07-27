@@ -1,5 +1,6 @@
 package org.burgas.filedatafilter.readwrite;
 
+import org.burgas.filedatafilter.exception.ReadWriteFailedException;
 import org.burgas.filedatafilter.exception.RemoveReaderOrWriterException;
 
 import java.io.*;
@@ -9,8 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.System.out;
-import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.REMOVE_READER_FAILED;
-import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.REMOVE_WRITER_FAILED;
+import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.*;
 
 /**
  * Класс реализации для работы с файлами и потоками чтения и записи;
@@ -79,14 +79,18 @@ public final class ReadWriteFileApi implements ReadWriteApi {
      * Метод создания потока для чтения;
      * @param fileName наименование и путь к файлу;
      * @return поток чтения из файла;
-     * @throws FileNotFoundException исключение, получаемое по причине отсутствия файла по заданному пути;
      */
-    public BufferedReader createFileReader(final String fileName) throws FileNotFoundException {
-        return new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(fileName), StandardCharsets.UTF_8
-                )
-        );
+    public BufferedReader createFileReader(final String fileName) {
+        try {
+            return new BufferedReader(
+                    new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8)
+            );
+
+        } catch (FileNotFoundException e) {
+            throw new org.burgas.filedatafilter.exception.FileNotFoundException(
+                    FILE_FOR_READER_CREATION_FAILURE.getMessage()
+            );
+        }
     }
 
     /**
@@ -94,22 +98,25 @@ public final class ReadWriteFileApi implements ReadWriteApi {
      * @param fileName наименование и путь к файлу;
      * @param append   параметр режима записи (с добавлением или перезаписью);
      * @return поток записи в файл;
-     * @throws IOException исключение, получаемое по причине возникших проблем с созданием потока для записи;
      */
-    public BufferedWriter createFileWriter(final String fileName, final boolean append) throws IOException {
-        return new BufferedWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(fileName, append), StandardCharsets.UTF_8
-                )
-        );
+    public BufferedWriter createFileWriter(final String fileName, final boolean append) {
+        try {
+            return new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(fileName, append), StandardCharsets.UTF_8)
+            );
+
+        } catch (FileNotFoundException e) {
+            throw new org.burgas.filedatafilter.exception.FileNotFoundException(
+                    FILE_FOR_WRITER_CREATION_FAILURE.getMessage()
+            );
+        }
     }
 
     /**
      * Метод добавления списка файлов для чтения в ассоциативный массив;
      * @param fileNames список местоположений и наименований файлов на носителе;
-     * @throws FileNotFoundException исключение, получаемое по причине отсутствия файла по заданному пути;
      */
-    public void addReaders(final List<String> fileNames) throws FileNotFoundException {
+    public void addReaders(final List<String> fileNames) {
         for (String fileName : fileNames)
             this.addReader(fileName, this.createFileReader(fileName));
     }
@@ -127,12 +134,16 @@ public final class ReadWriteFileApi implements ReadWriteApi {
      * Метод для записи в файл из ассоциативно массива;
      * @param fileName наименование и путь к файлу;
      * @param content информация для записи;
-     * @throws IOException исключение, получаемое по причине возникших проблем с записью в файл;
      */
-    public void write(final String fileName, final String content) throws IOException {
+    public void write(final String fileName, final String content) {
         BufferedWriter bufferedWriter = this.writers.get(fileName);
-        bufferedWriter.write(content + "\n");
-        bufferedWriter.flush();
+        try {
+            bufferedWriter.write(content + "\n");
+            bufferedWriter.flush();
+
+        } catch (IOException e) {
+            throw new ReadWriteFailedException(READ_OR_WRITE_FAILED.getMessage());
+        }
     }
 
     /**

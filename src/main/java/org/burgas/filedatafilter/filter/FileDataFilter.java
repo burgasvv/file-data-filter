@@ -1,12 +1,12 @@
 package org.burgas.filedatafilter.filter;
 
+import org.burgas.filedatafilter.exception.FileNotFoundException;
 import org.burgas.filedatafilter.exception.ReadWriteFailedException;
 import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
 import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 

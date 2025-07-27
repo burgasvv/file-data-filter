@@ -1,10 +1,10 @@
 package org.burgas.filedatafilter.statistics;
 
 import org.burgas.filedatafilter.exception.AddReaderFailedException;
+import org.burgas.filedatafilter.exception.FileNotFoundException;
 import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
 import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import static org.burgas.filedatafilter.message.AllStatisticsMessages.ADD_READER_FAILED;
@@ -48,6 +48,24 @@ public final class AllStatistics {
         String integers = this.argumentHandlerImpl.getOutputFilePathsMap().get("integers");
         String floats = this.argumentHandlerImpl.getOutputFilePathsMap().get("floats");
 
+        handleReaders(strings, integers, floats);
+        addElementsToStatistics(strings, integers, floats);
+
+        return this.stringStatistics.getStatistics(
+                this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+               this.longStatistics.getStatistics(
+                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+               this.doubleStatistics.getStatistics(
+                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
+    }
+
+    /**
+     * Внутренний приватный метод добавления и удаления потоков чтения для файлов;
+     * @param strings путь к файлу, содержащему строковые значения;
+     * @param integers путь к файлу, содержащему целочисленные значения;
+     * @param floats путь к файлу, содержащему вещественные значения;
+     */
+    private void handleReaders(String strings, String integers, String floats) {
         try {
             this.readWriteFileApi.removeReaders(this.argumentHandlerImpl.getInputFilePaths());
             this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
@@ -55,7 +73,15 @@ public final class AllStatistics {
         } catch (FileNotFoundException e) {
             throw new AddReaderFailedException(ADD_READER_FAILED.getMessage());
         }
+    }
 
+    /**
+     * Внутренний приватный метод добавления элементов в статистику;
+     * @param strings путь к файлу, содержащему строковые значения;
+     * @param integers путь к файлу, содержащему целочисленные значения;
+     * @param floats путь к файлу, содержащему вещественные значения;
+     */
+    private void addElementsToStatistics(String strings, String integers, String floats) {
         this.readWriteFileApi.getReaders()
                 .get(strings)
                 .lines()
@@ -70,12 +96,5 @@ public final class AllStatistics {
                 .get(floats)
                 .lines()
                 .forEach(string -> this.doubleStatistics.add(Double.parseDouble(string)));
-
-        return this.stringStatistics.getStatistics(
-                this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
-               this.longStatistics.getStatistics(
-                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
-               this.doubleStatistics.getStatistics(
-                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
     }
 }

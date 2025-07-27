@@ -81,7 +81,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return минимальный элемент в списке;
      */
     public Long getLongMin() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .mapToLong(Long::longValue)
                 .min()
                 .orElse(0L);
@@ -92,7 +92,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return максимальный элемент в списке;
      */
     public Long getLongMax() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .mapToLong(Long::longValue)
                 .max()
                 .orElse(0L);
@@ -103,7 +103,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return средний элемент в списке;
      */
     public Long getLongAverage() {
-        return (long) this.values.stream()
+        return (long) this.values.parallelStream()
                 .mapToLong(Long::longValue)
                 .average()
                 .orElse(0.0);
@@ -114,7 +114,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return сумма элементов списка целых чисел;
      */
     public Long getLongSum() {
-        return this.values.stream()
+        return this.values.parallelStream()
                 .mapToLong(Long::longValue)
                 .sum();
     }
