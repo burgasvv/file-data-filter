@@ -24,6 +24,6 @@ ___
 ### Запуск приложения
 * > Запустить командную строку и перейти в корневую директорию приложения
 * > Выполнить команду `mvn clean package`
-* > Запустить __jar file__ приложение с помощью команды: 
+* > Пример команды запуска jar файла приложения: 
   >> `java -jar target/file-data-filter-1.0.jar -f -o src/main/resources/output/ -p result_ src/main/resources/input/in1.txt src/main/resources/input/in2.txt`
 * > Получить результат выполнения
