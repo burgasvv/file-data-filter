@@ -1,6 +1,7 @@
 package org.burgas.filedatafilter.filter;
 
-import org.burgas.filedatafilter.handler.ArgumentHandler;
+import org.burgas.filedatafilter.exception.ReadWriteFailedException;
+import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
 import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
 import java.io.BufferedReader;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import static java.lang.String.valueOf;
+import static org.burgas.filedatafilter.message.FileDataFilterMessages.FILE_NOT_FOUND_FOR_ADDING_TO_READERS;
+import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.READ_OR_WRITE_FAILED;
 
 /**
  * Класс, позволяющий считывать данные из файлов,
@@ -20,7 +23,7 @@ public final class FileDataFilter implements DataFilter {
     /**
      * Ссылка на объект Обработчик аргументов;
      */
-    private final ArgumentHandler argumentHandler;
+    private final ArgumentHandlerImpl argumentHandlerImpl;
 
     /**
      * Ссылка на объект для чтения и записи файлов;
@@ -29,12 +32,10 @@ public final class FileDataFilter implements DataFilter {
 
     /**
      * Конструктор для создания объектов и добавления файлов для считывания данных и дальнейшей обработки;
-     * @throws FileNotFoundException исключение, получаемое при отсутствии файлов для считывания;
      */
-    public FileDataFilter(final ArgumentHandler argumentHandler, final ReadWriteFileApi readWriteFileApi) throws FileNotFoundException {
-        this.argumentHandler = argumentHandler;
+    public FileDataFilter(final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteFileApi readWriteFileApi) {
+        this.argumentHandlerImpl = argumentHandlerImpl;
         this.readWriteFileApi = readWriteFileApi;
-        this.readWriteFileApi.addReaders(argumentHandler.getInputFilePaths());
     }
 
     /**
@@ -50,7 +51,7 @@ public final class FileDataFilter implements DataFilter {
             this.readWriteFileApi.write(filename, content);
 
         else {
-            BufferedWriter fileWriter = this.readWriteFileApi.createFileWriter(filename, this.argumentHandler.isFileWriteAppend());
+            BufferedWriter fileWriter = this.readWriteFileApi.createFileWriter(filename, this.argumentHandlerImpl.isFileWriteAppend());
             this.readWriteFileApi.addWriter(filename, fileWriter);
             this.readWriteFileApi.write(filename, content);
         }
@@ -61,29 +62,43 @@ public final class FileDataFilter implements DataFilter {
      * преобразование в целочисленные и вещественные типы данных и запись в соответствующие их типу файлы;
      */
     @Override
-    public void filter() throws IOException {
-        Map<String, String> resultPathMap = this.argumentHandler.getOutputFilePathsMap();
+    public void filter() {
+        try {
+            this.readWriteFileApi.addReaders(this.argumentHandlerImpl.getInputFilePaths());
+
+        } catch (FileNotFoundException e) {
+            throw new org.burgas.filedatafilter.exception.FileNotFoundException(
+                    FILE_NOT_FOUND_FOR_ADDING_TO_READERS.getMessage()
+            );
+        }
+
+        Map<String, String> outputFilePathsMap = this.argumentHandlerImpl.getOutputFilePathsMap();
 
         for (Map.Entry<String, BufferedReader> entry : this.readWriteFileApi.getReaders().entrySet()) {
             BufferedReader reader = entry.getValue();
 
-            while (reader.ready()) {
-                String line = reader.readLine();
-
-                try {
-                    long aLong = Long.parseLong(line);
-                    this.writeToFile(resultPathMap.get("integers"), valueOf(aLong));
-
-                } catch (NumberFormatException e) {
+            try {
+                while (reader.ready()) {
+                    String line = reader.readLine();
 
                     try {
-                        float aFloat = Float.parseFloat(line);
-                        this.writeToFile(resultPathMap.get("floats"), valueOf(aFloat));
+                        long aLong = Long.parseLong(line);
+                        this.writeToFile(outputFilePathsMap.get("integers"), valueOf(aLong));
 
-                    } catch (NumberFormatException e2) {
-                        this.writeToFile(resultPathMap.get("strings"), line);
+                    } catch (NumberFormatException e) {
+
+                        try {
+                            float aFloat = Float.parseFloat(line);
+                            this.writeToFile(outputFilePathsMap.get("floats"), valueOf(aFloat));
+
+                        } catch (NumberFormatException e2) {
+                            this.writeToFile(outputFilePathsMap.get("strings"), line);
+                        }
                     }
                 }
+
+            } catch (IOException e) {
+                throw new ReadWriteFailedException(READ_OR_WRITE_FAILED.getMessage());
             }
         }
     }

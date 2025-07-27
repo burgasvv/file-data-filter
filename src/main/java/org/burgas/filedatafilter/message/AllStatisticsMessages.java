@@ -1,5 +1,9 @@
 package org.burgas.filedatafilter.message;
 
+/**
+ * Перечисление сообщений относящихся к классу AllStatistics
+ * @see org.burgas.filedatafilter.statistics.AllStatistics
+ */
 public enum AllStatisticsMessages {
 
     ADD_READER_FAILED("Добавление потока чтения не удалось");

@@ -6,6 +6,7 @@ package org.burgas.filedatafilter.message;
  */
 public enum ReadWriteFileApiMessages {
 
+    READ_OR_WRITE_FAILED("Невозможно выполнить операцию чтения или записи"),
     REMOVE_READER_FAILED("Не удалось удалить поток чтения"),
     REMOVE_WRITER_FAILED("Не удалось удалить поток записи");
 

@@ -1,7 +1,7 @@
 package org.burgas.filedatafilter.statistics;
 
 import org.burgas.filedatafilter.exception.AddReaderFailedException;
-import org.burgas.filedatafilter.handler.ArgumentHandler;
+import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
 import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
 import java.io.FileNotFoundException;
@@ -17,7 +17,7 @@ public final class AllStatistics {
     /**
      * Ссылка на объект Обработчик аргументов;
      */
-    private final ArgumentHandler argumentHandler;
+    private final ArgumentHandlerImpl argumentHandlerImpl;
 
     /**
      * Ссылка на объект для чтения и записи файлов;
@@ -31,8 +31,8 @@ public final class AllStatistics {
     private final LongStatistics longStatistics;
     private final FloatStatistics floatStatistics;
 
-    public AllStatistics(final ArgumentHandler argumentHandler, ReadWriteFileApi readWriteFileApi) {
-        this.argumentHandler = argumentHandler;
+    public AllStatistics(final ArgumentHandlerImpl argumentHandlerImpl, ReadWriteFileApi readWriteFileApi) {
+        this.argumentHandlerImpl = argumentHandlerImpl;
         this.readWriteFileApi = readWriteFileApi;
         this.stringStatistics = new StringStatistics();
         this.longStatistics = new LongStatistics();
@@ -44,9 +44,9 @@ public final class AllStatistics {
      * @return получение статистики в виде строки;
      */
     public String getStatistics() {
-        String strings = this.argumentHandler.getOutputFilePathsMap().get("strings");
-        String integers = this.argumentHandler.getOutputFilePathsMap().get("integers");
-        String floats = this.argumentHandler.getOutputFilePathsMap().get("floats");
+        String strings = this.argumentHandlerImpl.getOutputFilePathsMap().get("strings");
+        String integers = this.argumentHandlerImpl.getOutputFilePathsMap().get("integers");
+        String floats = this.argumentHandlerImpl.getOutputFilePathsMap().get("floats");
 
         try {
             this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
@@ -59,10 +59,8 @@ public final class AllStatistics {
         this.readWriteFileApi.getReaders().get(integers).lines().forEach(s -> this.longStatistics.add(Long.parseLong(s)));
         this.readWriteFileApi.getReaders().get(floats).lines().forEach(s -> this.floatStatistics.add(Float.parseFloat(s)));
 
-        return "\n" + this.stringStatistics.getStatistics(this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics()) + "\n\n" +
-               this.longStatistics
-                       .getStatistics(this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics()) + "\n\n" +
-               this.floatStatistics
-                       .getStatistics(this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics());
+        return this.stringStatistics.getStatistics(this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+               this.longStatistics.getStatistics(this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+               this.floatStatistics.getStatistics(this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
     }
 }
