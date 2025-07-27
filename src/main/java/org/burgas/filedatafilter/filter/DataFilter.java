@@ -1,7 +1,5 @@
 package org.burgas.filedatafilter.filter;
 
-import java.io.IOException;
-
 /**
  * Интерфейс описывающий фильтрацию данных
  */
