@@ -2,8 +2,8 @@
 # ___Утилита фильтрации содержимого файлов.___
 
 ## Версии
-+ Java 17
-+ Maven 3.9.9
+-[X] Java 17
+-[X] Maven 3.9.9
 
 ___
 
@@ -25,5 +25,6 @@ ___
 * > Запустить командную строку и перейти в корневую директорию приложения
 * > Выполнить команду `mvn clean package`
 * > Запустить __jar file__ приложение с помощью команды: 
-  >> `java -jar target/file-data-filter-1.0.jar -f -o src/main/resources/output/ -p result_ src/main/resources/input/in1.txt src/main/resources/input/in2.txt`
+  >> `java -jar target/file-data-filtering-1.0.jar -f -o src/main/resources/output/ -p result_ 
+  > src/main/resources/input/in1.txt src/main/resources/input/in2.txt`
 * > Получить результат выполнения
