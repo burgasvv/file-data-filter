@@ -102,7 +102,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      */
     public Double getDoubleAverage() {
         return this.values.stream()
-                .mapToDouble(Double::floatValue)
+                .mapToDouble(value -> value)
                 .average()
                 .orElse(0.0);
     }
