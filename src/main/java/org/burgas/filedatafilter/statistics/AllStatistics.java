@@ -31,7 +31,7 @@ public final class AllStatistics {
     private final LongStatistics longStatistics;
     private final FloatStatistics floatStatistics;
 
-    public AllStatistics(final ArgumentHandlerImpl argumentHandlerImpl, ReadWriteFileApi readWriteFileApi) {
+    public AllStatistics(final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteFileApi readWriteFileApi) {
         this.argumentHandlerImpl = argumentHandlerImpl;
         this.readWriteFileApi = readWriteFileApi;
         this.stringStatistics = new StringStatistics();
