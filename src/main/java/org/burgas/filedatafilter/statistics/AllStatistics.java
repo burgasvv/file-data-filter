@@ -65,7 +65,7 @@ public final class AllStatistics {
      * @param integers путь к файлу, содержащему целочисленные значения;
      * @param floats путь к файлу, содержащему вещественные значения;
      */
-    private void handleReaders(String strings, String integers, String floats) {
+    private void handleReaders(final String strings, final String integers, final String floats) {
         try {
             this.readWriteFileApi.removeReaders(this.argumentHandlerImpl.getInputFilePaths());
             this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
@@ -81,7 +81,7 @@ public final class AllStatistics {
      * @param integers путь к файлу, содержащему целочисленные значения;
      * @param floats путь к файлу, содержащему вещественные значения;
      */
-    private void addElementsToStatistics(String strings, String integers, String floats) {
+    private void addElementsToStatistics(final String strings, final String integers, final String floats) {
         this.readWriteFileApi.getReaders()
                 .get(strings)
                 .lines()
