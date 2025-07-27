@@ -49,18 +49,33 @@ public final class AllStatistics {
         String floats = this.argumentHandlerImpl.getOutputFilePathsMap().get("floats");
 
         try {
+            this.readWriteFileApi.removeReaders(this.argumentHandlerImpl.getInputFilePaths());
             this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
 
         } catch (FileNotFoundException e) {
             throw new AddReaderFailedException(ADD_READER_FAILED.getMessage());
         }
 
-        this.readWriteFileApi.getReaders().get(strings).lines().forEach(this.stringStatistics::add);
-        this.readWriteFileApi.getReaders().get(integers).lines().forEach(s -> this.longStatistics.add(Long.parseLong(s)));
-        this.readWriteFileApi.getReaders().get(floats).lines().forEach(s -> this.floatStatistics.add(Float.parseFloat(s)));
+        this.readWriteFileApi.getReaders()
+                .get(strings)
+                .lines()
+                .forEach(this.stringStatistics::add);
 
-        return this.stringStatistics.getStatistics(this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
-               this.longStatistics.getStatistics(this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
-               this.floatStatistics.getStatistics(this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
+        this.readWriteFileApi.getReaders()
+                .get(integers)
+                .lines()
+                .forEach(string -> this.longStatistics.add(Long.parseLong(string)));
+
+        this.readWriteFileApi.getReaders()
+                .get(floats)
+                .lines()
+                .forEach(string -> this.floatStatistics.add(Float.parseFloat(string)));
+
+        return this.stringStatistics.getStatistics(
+                this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+               this.longStatistics.getStatistics(
+                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+               this.floatStatistics.getStatistics(
+                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
     }
 }

@@ -3,6 +3,7 @@ package org.burgas.filedatafilter.readwrite;
 import org.burgas.filedatafilter.exception.RemoveReaderOrWriterException;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,9 @@ public final class ReadWriteFileApi implements ReadWriteApi {
      */
     public BufferedReader createFileReader(final String fileName) throws FileNotFoundException {
         return new BufferedReader(
-                new FileReader(fileName)
+                new InputStreamReader(
+                        new FileInputStream(fileName), StandardCharsets.UTF_8
+                )
         );
     }
 
@@ -95,7 +98,9 @@ public final class ReadWriteFileApi implements ReadWriteApi {
      */
     public BufferedWriter createFileWriter(final String fileName, final boolean append) throws IOException {
         return new BufferedWriter(
-                new FileWriter(fileName, append)
+                new OutputStreamWriter(
+                        new FileOutputStream(fileName, append), StandardCharsets.UTF_8
+                )
         );
     }
 

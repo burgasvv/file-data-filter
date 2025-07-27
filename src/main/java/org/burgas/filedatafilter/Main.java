@@ -38,8 +38,6 @@ public final class Main {
         FileDataFilter fileFilter = new FileDataFilter(argumentHandlerImpl, readWriteFileApi);
         fileFilter.filter();
 
-        readWriteFileApi.removeReaders(argumentHandlerImpl.getInputFilePaths());
-
         AllStatistics allStatistics = new AllStatistics(argumentHandlerImpl, readWriteFileApi);
         out.println("\n" + allStatistics.getStatistics());
 
