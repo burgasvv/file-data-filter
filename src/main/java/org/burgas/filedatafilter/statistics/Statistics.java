@@ -5,7 +5,7 @@ package org.burgas.filedatafilter.statistics;
  * @param <T> Тип данных оперируемых в статистике;
  */
 public sealed interface Statistics<T>
-        permits FloatStatistics, LongStatistics, StringStatistics {
+        permits DoubleStatistics, LongStatistics, StringStatistics {
 
     /**
      * Метод для добавления данных;

@@ -29,14 +29,14 @@ public final class AllStatistics {
      */
     private final StringStatistics stringStatistics;
     private final LongStatistics longStatistics;
-    private final FloatStatistics floatStatistics;
+    private final DoubleStatistics doubleStatistics;
 
     public AllStatistics(final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteFileApi readWriteFileApi) {
         this.argumentHandlerImpl = argumentHandlerImpl;
         this.readWriteFileApi = readWriteFileApi;
         this.stringStatistics = new StringStatistics();
         this.longStatistics = new LongStatistics();
-        this.floatStatistics = new FloatStatistics();
+        this.doubleStatistics = new DoubleStatistics();
     }
 
     /**
@@ -69,13 +69,13 @@ public final class AllStatistics {
         this.readWriteFileApi.getReaders()
                 .get(floats)
                 .lines()
-                .forEach(string -> this.floatStatistics.add(Float.parseFloat(string)));
+                .forEach(string -> this.doubleStatistics.add(Double.parseDouble(string)));
 
         return this.stringStatistics.getStatistics(
                 this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
                this.longStatistics.getStatistics(
                        this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
-               this.floatStatistics.getStatistics(
+               this.doubleStatistics.getStatistics(
                        this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
     }
 }

@@ -7,17 +7,17 @@ import java.util.List;
 /**
  * Класс реализации для оперирования данными статистики по вещественным числам;
  */
-public final class FloatStatistics implements Statistics<Float> {
+public final class DoubleStatistics implements Statistics<Double> {
 
     /**
      * Список значений для обработки и получения статистики по вещественным числам;
      */
-    private final LinkedList<Float> values;
+    private final LinkedList<Double> values;
 
     /**
      * Конструктор для создания объекта класса и списка элементов вещественных чисел;
      */
-    public FloatStatistics() {
+    public DoubleStatistics() {
         this.values = new LinkedList<>();
     }
 
@@ -25,7 +25,7 @@ public final class FloatStatistics implements Statistics<Float> {
      * Метод получения списка элементов значений статистики;
      * @return Список элементов вещественных чисел;
      */
-    public List<Float> getValues() {
+    public List<Double> getValues() {
         return this.values;
     }
 
@@ -34,7 +34,7 @@ public final class FloatStatistics implements Statistics<Float> {
      * @param item Тип данных вещественного числа;
      */
     @Override
-    public void add(Float item) {
+    public void add(Double item) {
         this.values.add(item);
     }
 
@@ -43,7 +43,7 @@ public final class FloatStatistics implements Statistics<Float> {
      * @param item Параметр удаления данных из статистики;
      */
     @Override
-    public void remove(Float item) {
+    public void remove(Double item) {
         this.values.remove(item);
     }
 
@@ -63,10 +63,10 @@ public final class FloatStatistics implements Statistics<Float> {
         )
             return title +
                    "\nКоличество записанных элементов: " + this.getValues().size() +
-                   "\nМаксимальное значение: " + this.getFloatMax() +
-                   "\nМинимальное значение: " + this.getFloatMin() +
-                   "\nСреднее значение: " + this.getFloatAverage() +
-                   "\nСумма записанных элементов: " + this.getFloatSum();
+                   "\nМаксимальное значение: " + this.getDoubleMax() +
+                   "\nМинимальное значение: " + this.getDoubleMin() +
+                   "\nСреднее значение: " + this.getDoubleAverage() +
+                   "\nСумма записанных элементов: " + this.getDoubleSum();
 
         else if (paramList.contains("-s"))
             return title +
@@ -80,29 +80,29 @@ public final class FloatStatistics implements Statistics<Float> {
      * Получение минимального элемента в списке вещественных чисел;
      * @return минимальный элемент в списке;
      */
-    public Float getFloatMin() {
+    public Double getDoubleMin() {
         return this.values.stream()
-                .min(Float::compareTo)
-                .orElse(0.0f);
+                .min(Double::compareTo)
+                .orElse(0.0);
     }
 
     /**
      * Получение максимального значения элемента в списке вещественных чисел;
      * @return максимальный элемент в списке;
      */
-    public Float getFloatMax() {
+    public Double getDoubleMax() {
         return this.values.stream()
-                .max(Float::compareTo)
-                .orElse(0.0f);
+                .max(Double::compareTo)
+                .orElse(0.0);
     }
 
     /**
      * Получение среднего значения элемента в списке вещественных чисел;
      * @return средний элемент в списке;
      */
-    public Float getFloatAverage() {
-        return (float) this.values.stream()
-                .mapToDouble(Float::floatValue)
+    public Double getDoubleAverage() {
+        return this.values.stream()
+                .mapToDouble(Double::floatValue)
                 .average()
                 .orElse(0.0);
     }
@@ -111,9 +111,9 @@ public final class FloatStatistics implements Statistics<Float> {
      * Расчет суммы значений элементов в списке вещественных чисел;
      * @return сумма элементов списка вещественных чисел;
      */
-    public Float getFloatSum() {
-        return (float) this.values.stream()
-                .mapToDouble(Float::doubleValue)
+    public Double getDoubleSum() {
+        return this.values.stream()
+                .mapToDouble(Double::doubleValue)
                 .sum();
     }
 }

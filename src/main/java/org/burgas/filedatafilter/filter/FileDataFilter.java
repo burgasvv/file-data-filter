@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static java.lang.String.valueOf;
+import static java.lang.System.*;
 import static org.burgas.filedatafilter.message.FileDataFilterMessages.FILE_NOT_FOUND_FOR_ADDING_TO_READERS;
 import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.READ_OR_WRITE_FAILED;
 
@@ -88,8 +89,8 @@ public final class FileDataFilter implements DataFilter {
                     } catch (NumberFormatException e) {
 
                         try {
-                            float aFloat = Float.parseFloat(line);
-                            this.writeToFile(outputFilePathsMap.get("floats"), valueOf(aFloat));
+                            double aDouble = Double.parseDouble(line);
+                            this.writeToFile(outputFilePathsMap.get("floats"), valueOf(aDouble));
 
                         } catch (NumberFormatException e2) {
                             this.writeToFile(outputFilePathsMap.get("strings"), line);
@@ -101,5 +102,7 @@ public final class FileDataFilter implements DataFilter {
                 throw new ReadWriteFailedException(READ_OR_WRITE_FAILED.getMessage());
             }
         }
+
+        out.println("Данные распределены и записаны в файлы\n");
     }
 }
