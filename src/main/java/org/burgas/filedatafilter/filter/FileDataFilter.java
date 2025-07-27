@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static java.lang.String.valueOf;
-import static java.lang.System.*;
+import static java.lang.System.out;
 import static org.burgas.filedatafilter.message.FileDataFilterMessages.FILE_NOT_FOUND_FOR_ADDING_TO_READERS;
 import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.READ_OR_WRITE_FAILED;
 
