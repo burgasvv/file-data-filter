@@ -52,15 +52,15 @@ public final class AllStatistics {
         addElementsToStatistics(strings, integers, floats);
 
         return this.stringStatistics.getStatistics(
-                this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+                               this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
                this.longStatistics.getStatistics(
-                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+                               this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
                this.doubleStatistics.getStatistics(
-                       this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
+                               this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
     }
 
     /**
-     * Внутренний приватный метод добавления и удаления потоков чтения для файлов;
+     * Приватный метод добавления и удаления потоков чтения для файлов;
      * @param strings путь к файлу, содержащему строковые значения;
      * @param integers путь к файлу, содержащему целочисленные значения;
      * @param floats путь к файлу, содержащему вещественные значения;
@@ -76,7 +76,7 @@ public final class AllStatistics {
     }
 
     /**
-     * Внутренний приватный метод добавления элементов в статистику;
+     * Приватный метод добавления элементов в статистику;
      * @param strings путь к файлу, содержащему строковые значения;
      * @param integers путь к файлу, содержащему целочисленные значения;
      * @param floats путь к файлу, содержащему вещественные значения;

@@ -76,9 +76,10 @@ public final class FileDataFilter implements DataFilter {
         Map<String, String> outputFilePathsMap = this.argumentHandlerImpl.getOutputFilePathsMap();
 
         for (Map.Entry<String, BufferedReader> entry : this.readWriteFileApi.getReaders().entrySet()) {
-            BufferedReader reader = entry.getValue();
 
             try {
+                BufferedReader reader = entry.getValue();
+
                 while (reader.ready()) {
                     String line = reader.readLine();
 
@@ -103,6 +104,6 @@ public final class FileDataFilter implements DataFilter {
             }
         }
 
-        out.println("Данные распределены и записаны в файлы\n");
+        out.println("\nДанные распределены и записаны в файлы\n");
     }
 }

@@ -6,11 +6,9 @@ import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
 import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 import org.burgas.filedatafilter.statistics.AllStatistics;
 
-import java.util.Arrays;
-
 import static java.lang.System.currentTimeMillis;
 import static java.lang.System.out;
-import static org.burgas.filedatafilter.message.MainMessages.*;
+import static org.burgas.filedatafilter.message.MainMessages.ARGUMENTS_WITH_FILES_NOT_FOUND;
 
 /**
  * Основной класс Main для запуска программы через точку входа main
@@ -27,9 +25,6 @@ public final class Main {
 
         if (!inputFiles)
             throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
-
-        out.println(ARGUMENTS_RECEIVED_SUCCESSFULLY.getMessage());
-        out.printf(ARGUMENTS.getMessage(), Arrays.toString(args) + "\n\n");
 
         argumentHandlerImpl.handleArgs(args);
 

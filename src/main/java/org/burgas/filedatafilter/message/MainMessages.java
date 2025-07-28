@@ -6,9 +6,7 @@ package org.burgas.filedatafilter.message;
  */
 public enum MainMessages {
 
-    ARGUMENTS_RECEIVED_SUCCESSFULLY("\nАргументы с (input) файлами для чтения с расширением .txt получены"),
-    ARGUMENTS_WITH_FILES_NOT_FOUND("\nАргументы с (input) файлами с расширением .txt не найдены"),
-    ARGUMENTS("Аргументы: %s");
+    ARGUMENTS_WITH_FILES_NOT_FOUND("\nАргументы с (input) файлами с расширением .txt не найдены");
 
     private final String message;
 
