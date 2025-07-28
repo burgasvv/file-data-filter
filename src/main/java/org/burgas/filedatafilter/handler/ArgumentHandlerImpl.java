@@ -85,6 +85,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         boolean inputFiles = false;
         for (String arg : args) {
 
+            // Проверка на наличие исходных файлов формата .txt
             if (arg.endsWith(".txt")) {
 
                 try {
@@ -112,6 +113,8 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
      */
     @Override
     public void handleArgs(String[] args) {
+
+        // Обработка аргументов, и формирование состояния, и полей класса;
         for (int i = 0; i < args.length; i++) {
 
             if (args[i].equals("-o") && !args[i + 1].startsWith("-"))
@@ -138,10 +141,12 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
 
         for (String param : args) {
 
+            // Получение директорий исходных файлов и добавление в список;
             if (param.endsWith(".txt"))
                 this.inputFilePaths.add(param);
         }
 
+        // Получение директорий результирующих файлов и добавление в ассоциативный массив;
         this.outputFilePathsMap.replace("strings", outputFilePath + prefixOutputFileName + "strings.txt");
         this.outputFilePathsMap.replace("integers", outputFilePath + prefixOutputFileName + "integers.txt");
         this.outputFilePathsMap.replace("floats", outputFilePath + prefixOutputFileName + "floats.txt");

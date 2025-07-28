@@ -43,11 +43,10 @@ public final class FileDataFilter implements DataFilter {
      * Метод записи в файл с учетом проверки на существование данного файла по его наименованию;
      * @param filename наименование файла;
      * @param content информация для записи;
-     * @throws IOException исключение, получаемое в случае невозможности записи;
      */
-    private void writeToFile(String filename, String content)
-            throws IOException {
+    private void writeToFile(String filename, String content) {
 
+        // Проверка на наличие потока записи и запись в файл;
         if (this.readWriteFileApi.getWriters().containsKey(filename))
             this.readWriteFileApi.write(filename, content);
 
@@ -65,6 +64,7 @@ public final class FileDataFilter implements DataFilter {
     @Override
     public void filter() {
         try {
+            // Добавление потоков чтения для исходных файлов перед фильтрацией;
             this.readWriteFileApi.addReaders(this.argumentHandlerImpl.getInputFilePaths());
 
         } catch (FileNotFoundException e) {
@@ -73,27 +73,36 @@ public final class FileDataFilter implements DataFilter {
             );
         }
 
+        // Получение директорий для результирующих файлов;
         Map<String, String> outputFilePathsMap = this.argumentHandlerImpl.getOutputFilePathsMap();
 
+        // Цикл для чтения данных из исходных файлов, распределения и записи в результирующие файлы;
         for (Map.Entry<String, BufferedReader> entry : this.readWriteFileApi.getReaders().entrySet()) {
 
             try {
+                // Получения потока для чтения;
                 BufferedReader reader = entry.getValue();
 
                 while (reader.ready()) {
+
+                    // Получение строки из исходного файла;
                     String line = reader.readLine();
 
                     try {
+                        // Преобразование в целочисленный тип данных и запись в соответствующий файл;
                         long aLong = Long.parseLong(line);
                         this.writeToFile(outputFilePathsMap.get("integers"), valueOf(aLong));
 
                     } catch (NumberFormatException e) {
 
                         try {
+                            // Преобразование в вещественный тип данных и запись в соответствующий файл;
                             double aDouble = Double.parseDouble(line);
                             this.writeToFile(outputFilePathsMap.get("floats"), valueOf(aDouble));
 
                         } catch (NumberFormatException e2) {
+
+                            // Запись строки в соответствующий файл;
                             this.writeToFile(outputFilePathsMap.get("strings"), line);
                         }
                     }

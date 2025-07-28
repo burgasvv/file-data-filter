@@ -20,19 +20,25 @@ public final class Main {
         long start = currentTimeMillis();
         out.println();
 
+        // Создание объекта обработчика аргументов;
         ArgumentHandlerImpl argumentHandlerImpl = new ArgumentHandlerImpl();
-        boolean inputFiles = argumentHandlerImpl.isInputFiles(args);
 
+        // Проверка на наличие исходных файлов для чтения;
+        boolean inputFiles = argumentHandlerImpl.isInputFiles(args);
         if (!inputFiles)
             throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
 
+        // Обработка аргументов;
         argumentHandlerImpl.handleArgs(args);
 
+        // Создание объекта реализации интерфейса для чтения и записи;
         ReadWriteFileApi readWriteFileApi = new ReadWriteFileApi();
 
+        // Создание объекта для фильтрации данных с последующей фильтрацией в методе filter;
         FileDataFilter fileFilter = new FileDataFilter(argumentHandlerImpl, readWriteFileApi);
         fileFilter.filter();
 
+        // Создание объекта для расчета статистических данных с дальнейшим получение статистики;
         AllStatistics allStatistics = new AllStatistics(argumentHandlerImpl, readWriteFileApi);
         out.println("\n" + allStatistics.getStatistics());
 

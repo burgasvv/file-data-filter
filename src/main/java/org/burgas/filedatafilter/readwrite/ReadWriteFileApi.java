@@ -104,9 +104,7 @@ public final class ReadWriteFileApi implements ReadWriteApi {
             );
 
         } catch (FileNotFoundException e) {
-            throw new org.burgas.filedatafilter.exception.FileNotFoundException(
-                    FILE_FOR_WRITER_CREATION_FAILURE.getMessage()
-            );
+            return null;
         }
     }
 
