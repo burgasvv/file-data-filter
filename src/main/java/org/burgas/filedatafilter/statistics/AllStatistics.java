@@ -1,13 +1,10 @@
 package org.burgas.filedatafilter.statistics;
 
-import org.burgas.filedatafilter.exception.AddReaderFailedException;
-import org.burgas.filedatafilter.exception.FileNotFoundException;
 import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
 import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
 
+import java.io.BufferedReader;
 import java.util.List;
-
-import static org.burgas.filedatafilter.message.AllStatisticsMessages.ADD_READER_FAILED;
 
 /**
  * Класс для сбора всей статистики
@@ -66,13 +63,8 @@ public final class AllStatistics {
      * @param floats путь к файлу, содержащему вещественные значения;
      */
     private void handleReaders(final String strings, final String integers, final String floats) {
-        try {
-            this.readWriteFileApi.removeReaders(this.argumentHandlerImpl.getInputFilePaths());
-            this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
-
-        } catch (FileNotFoundException e) {
-            throw new AddReaderFailedException(ADD_READER_FAILED.getMessage());
-        }
+        this.readWriteFileApi.removeReaders(this.argumentHandlerImpl.getInputFilePaths());
+        this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
     }
 
     /**
@@ -82,19 +74,22 @@ public final class AllStatistics {
      * @param floats путь к файлу, содержащему вещественные значения;
      */
     private void addElementsToStatistics(final String strings, final String integers, final String floats) {
-        this.readWriteFileApi.getReaders()
-                .get(strings)
-                .lines()
-                .forEach(this.stringStatistics::add);
+        BufferedReader stringsBufferedReader = this.readWriteFileApi.getReaders().get(strings);
+        if (stringsBufferedReader != null) {
+            stringsBufferedReader.lines()
+                    .forEach(this.stringStatistics::add);
+        }
 
-        this.readWriteFileApi.getReaders()
-                .get(integers)
-                .lines()
-                .forEach(string -> this.longStatistics.add(Long.parseLong(string)));
+        BufferedReader longsBufferedReader = this.readWriteFileApi.getReaders().get(integers);
+        if (longsBufferedReader != null) {
+            longsBufferedReader.lines()
+                    .forEach(string -> this.longStatistics.add(Long.parseLong(string)));
+        }
 
-        this.readWriteFileApi.getReaders()
-                .get(floats)
-                .lines()
-                .forEach(string -> this.doubleStatistics.add(Double.parseDouble(string)));
+        BufferedReader floatsBufferedReader = this.readWriteFileApi.getReaders().get(floats);
+        if (floatsBufferedReader != null) {
+            floatsBufferedReader.lines()
+                    .forEach(string -> this.doubleStatistics.add(Double.parseDouble(string)));
+        }
     }
 }
