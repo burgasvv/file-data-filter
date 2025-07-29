@@ -21,6 +21,8 @@ import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.*;
  */
 public final class ArgumentHandlerImpl implements ArgumentHandler {
 
+    private Boolean checkInputFiles;
+
     /**
      * Аргумент пути output файлов;
      */
@@ -60,6 +62,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
      * Конструктор со встроенной логикой обработки массива аргументов и их записи в свойства класса;
      */
     public ArgumentHandlerImpl() {
+        this.checkInputFiles = false;
         this.shortStatistics = "";
         this.fullStatistics = "";
         this.outputFilePath = "";
@@ -77,12 +80,12 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     }
 
     /**
-     * Метод проверки на наличие в аргументах input файлов для чтения;
+     * Метод обработки массива аргументов и распределения по свойствам-опциям
      * @param args массив входящих аргументов;
-     * @return результат проверки типа boolean;
      */
-    public boolean isInputFiles(String[] args) {
-        boolean inputFiles = false;
+    @Override
+    public void handleArgs(String[] args) {
+
         for (String arg : args) {
 
             // Проверка на наличие исходных файлов формата .txt
@@ -90,6 +93,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
 
                 try {
                     new BufferedReader(new FileReader(arg)).close();
+                    this.inputFilePaths.add(arg);
 
                 } catch (FileNotFoundException e) {
                     throw new org.burgas.filedatafilter.exception.FileNotFoundException(
@@ -100,50 +104,41 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
                     throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
                 }
 
-                inputFiles = true;
+                this.checkInputFiles = true;
                 out.println("Файл для чтения: " + arg + " получен");
             }
         }
-        return inputFiles;
-    }
-
-    /**
-     * Метод обработки массива аргументов и распределения по свойствам-опциям
-     * @param args массив входящих аргументов;
-     */
-    @Override
-    public void handleArgs(String[] args) {
 
         // Обработка аргументов, и формирование состояния, и полей класса;
         for (int i = 0; i < args.length; i++) {
 
-            if (args[i].equals("-o") && !args[i + 1].startsWith("-"))
+            if (args[i].equals("-o") && !args[i + 1].startsWith("-")) {
                 this.outputFilePath = args[i + 1];
+            }
 
-            if (args[i].equals("-o") && args[i + 1].endsWith(".txt"))
+            if (args[i].equals("-o") && args[i + 1].endsWith(".txt")) {
                 throw new WrongOutputFilePathException(WRONG_OUTPUT_FILE_PATH.getMessage());
+            }
 
-            if (args[i].equals("-p") && !args[i + 1].startsWith("-"))
+            if (args[i].equals("-p") && !args[i + 1].startsWith("-")) {
                 this.prefixOutputFileName = args[i + 1];
+            }
 
-            if (args[i].equals("-p") && (args[i + 1].contains("/") || args[i + 1].contains("\\")))
+            if (args[i].equals("-p") && (args[i + 1].contains("/") || args[i + 1].contains("\\"))) {
                 throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
+            }
 
-            if (args[i].equals("-a"))
+            if (args[i].equals("-a")) {
                 this.fileWriteAppend = true;
+            }
 
-            if (args[i].equals("-s"))
+            if (args[i].equals("-s")) {
                 this.shortStatistics = args[i];
+            }
 
-            if (args[i].equals("-f"))
+            if (args[i].equals("-f")) {
                 this.fullStatistics = args[i];
-        }
-
-        for (String param : args) {
-
-            // Получение директорий исходных файлов и добавление в список;
-            if (param.endsWith(".txt"))
-                this.inputFilePaths.add(param);
+            }
         }
 
         // Получение директорий результирующих файлов и добавление в ассоциативный массив;
@@ -153,8 +148,16 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     }
 
     /**
+     * Метод получения флага проверки на наличие входящих файлов;
+     * @return объект условного типа данных;
+     */
+    public Boolean getCheckInputFiles() {
+        return checkInputFiles;
+    }
+
+    /**
      * Метод получения приватного поля режима добавления в данных в файл;
-     * @return Объект условного типа данных;
+     * @return объект условного типа данных;
      */
     public boolean isFileWriteAppend() {
         return this.fileWriteAppend;

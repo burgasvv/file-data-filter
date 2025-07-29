@@ -23,13 +23,12 @@ public final class Main {
         // Создание объекта обработчика аргументов;
         ArgumentHandlerImpl argumentHandlerImpl = new ArgumentHandlerImpl();
 
-        // Проверка на наличие исходных файлов для чтения;
-        boolean inputFiles = argumentHandlerImpl.isInputFiles(args);
-        if (!inputFiles)
-            throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
-
         // Обработка аргументов;
         argumentHandlerImpl.handleArgs(args);
+
+        // Проверка на наличие исходных файлов для чтения;
+        if (!argumentHandlerImpl.getCheckInputFiles())
+            throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
 
         // Создание объекта реализации интерфейса для чтения и записи;
         ReadWriteFileApi readWriteFileApi = new ReadWriteFileApi();
@@ -38,7 +37,7 @@ public final class Main {
         FileDataFilter fileFilter = new FileDataFilter(argumentHandlerImpl, readWriteFileApi);
         fileFilter.filter();
 
-        // Создание объекта для расчета статистических данных с дальнейшим получение статистики;
+        // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
         AllStatistics allStatistics = new AllStatistics(argumentHandlerImpl, readWriteFileApi);
         out.println("\n" + allStatistics.getStatistics());
 
