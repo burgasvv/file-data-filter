@@ -1,8 +1,10 @@
 package org.burgas.filedatafilter.handler;
 
+import org.burgas.filedatafilter.exception.ArgumentsNotFoundException;
 import org.burgas.filedatafilter.exception.FileCreationFailureException;
 import org.burgas.filedatafilter.exception.WrongOutputFilePathException;
 import org.burgas.filedatafilter.exception.WrongOutputFilePrefixException;
+import org.burgas.filedatafilter.format.FileFormatTypes;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,13 +17,12 @@ import java.util.Map;
 
 import static java.lang.System.out;
 import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.*;
+import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.ARGUMENTS_WITH_FILES_NOT_FOUND;
 
 /**
  * Класс обработки аргументов программы добавленных через командную строку для чтения и записи;
  */
 public final class ArgumentHandlerImpl implements ArgumentHandler {
-
-    private Boolean checkInputFiles;
 
     /**
      * Аргумент пути output файлов;
@@ -62,7 +63,6 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
      * Конструктор со встроенной логикой обработки массива аргументов и их записи в свойства класса;
      */
     public ArgumentHandlerImpl() {
-        this.checkInputFiles = false;
         this.shortStatistics = "";
         this.fullStatistics = "";
         this.outputFilePath = "";
@@ -88,26 +88,33 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
 
         for (String arg : args) {
 
-            // Проверка на наличие исходных файлов формата .txt
-            if (arg.endsWith(".txt")) {
+            for (FileFormatTypes format : FileFormatTypes.values()) {
+                String fileType = format.getFileType();
 
-                try {
-                    new BufferedReader(new FileReader(arg)).close();
-                    this.inputFilePaths.add(arg);
+                // Проверка на наличие исходных файлов разных текстовых форматов
+                if (arg.endsWith(fileType)) {
 
-                } catch (FileNotFoundException e) {
-                    throw new org.burgas.filedatafilter.exception.FileNotFoundException(
-                            String.format(FILE_NOT_FOUND.getMessage(), arg)
-                    );
+                    try {
+                        new BufferedReader(new FileReader(arg)).close();
+                        this.inputFilePaths.add(arg);
 
-                } catch (IOException e) {
-                    throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
+                    } catch (FileNotFoundException e) {
+                        throw new org.burgas.filedatafilter.exception.FileNotFoundException(
+                                String.format(FILE_NOT_FOUND.getMessage(), arg)
+                        );
+
+                    } catch (IOException e) {
+                        throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
+                    }
+
+                    out.println("Файл для чтения: " + arg + " получен");
                 }
-
-                this.checkInputFiles = true;
-                out.println("Файл для чтения: " + arg + " получен");
             }
         }
+
+        // Проверка на наличие исходных файлов для чтения;
+        if (this.getInputFilePaths().isEmpty())
+            throw new ArgumentsNotFoundException(ARGUMENTS_WITH_FILES_NOT_FOUND.getMessage());
 
         // Обработка аргументов, и формирование состояния, и полей класса;
         for (int i = 0; i < args.length; i++) {
@@ -145,14 +152,6 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         this.outputFilePathsMap.replace("strings", outputFilePath + prefixOutputFileName + "strings.txt");
         this.outputFilePathsMap.replace("integers", outputFilePath + prefixOutputFileName + "integers.txt");
         this.outputFilePathsMap.replace("floats", outputFilePath + prefixOutputFileName + "floats.txt");
-    }
-
-    /**
-     * Метод получения флага проверки на наличие входящих файлов;
-     * @return объект условного типа данных;
-     */
-    public Boolean getCheckInputFiles() {
-        return checkInputFiles;
     }
 
     /**

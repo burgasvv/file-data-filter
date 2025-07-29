@@ -6,6 +6,7 @@ package org.burgas.filedatafilter.message;
  */
 public enum ArgumentHandlerMessages {
 
+    ARGUMENTS_WITH_FILES_NOT_FOUND("\nАргументы с (input) файлами с расширением .txt не найдены"),
     FILE_CREATION_FAILURE("Невозможно создать файл"),
     WRONG_OUTPUT_FILE_PREFIX("Wrong output file prefix"),
     WRONG_OUTPUT_FILE_PATH("Неверный путь к output файлам"),
