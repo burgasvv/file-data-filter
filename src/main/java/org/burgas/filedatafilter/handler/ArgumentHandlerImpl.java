@@ -17,7 +17,6 @@ import java.util.Map;
 
 import static java.lang.System.out;
 import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.*;
-import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.ARGUMENTS_WITH_FILES_NOT_FOUND;
 
 /**
  * Класс обработки аргументов программы добавленных через командную строку для чтения и записи;
