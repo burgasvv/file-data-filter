@@ -12,14 +12,7 @@ public final class StringStatistics implements Statistics<String> {
     /**
      * Список значений для обработки и получения статистики по строковым значениям;
      */
-    private final LinkedList<String> strings;
-
-    /**
-     * Конструктор для создания объекта класса и списка элементов строковых значений;
-     */
-    public StringStatistics() {
-        this.strings = new LinkedList<>();
-    }
+    private final LinkedList<String> strings = new LinkedList<>();
 
     /**
      * Метод получения списка элементов значений статистики;

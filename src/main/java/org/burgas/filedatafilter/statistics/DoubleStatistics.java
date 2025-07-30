@@ -12,14 +12,7 @@ public final class DoubleStatistics implements Statistics<Double> {
     /**
      * Список значений для обработки и получения статистики по вещественным числам;
      */
-    private final LinkedList<Double> values;
-
-    /**
-     * Конструктор для создания объекта класса и списка элементов вещественных чисел;
-     */
-    public DoubleStatistics() {
-        this.values = new LinkedList<>();
-    }
+    private final LinkedList<Double> values = new LinkedList<>();
 
     /**
      * Метод получения списка элементов значений статистики;

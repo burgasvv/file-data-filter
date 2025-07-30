@@ -12,14 +12,7 @@ public final class LongStatistics implements Statistics<Long> {
     /**
      * Список значений для обработки и получения статистики по целым числам;
      */
-    private final LinkedList<Long> values;
-
-    /**
-     * Конструктор для создания объекта класса и списка элементов целых чисел;
-     */
-    public LongStatistics() {
-        this.values = new LinkedList<>();
-    }
+    private final LinkedList<Long> values = new LinkedList<>();
 
     /**
      * Метод получения списка элементов значений статистики;
