@@ -106,23 +106,11 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         // Обработка аргументов, и формирование состояния, и полей класса;
         for (int i = 0; i < args.length; i++) {
 
-            if (args[i].equals("-o") && !args[i + 1].startsWith("-")) {
-                this.outputFilePath = args[i + 1];
-            }
-
             for (FileFormatTypes fileFormatTypes : FileFormatTypes.values()) {
                 String fileType = fileFormatTypes.getFileType();
 
                 if (args[i].equals("-o") && args[i + 1].endsWith(fileType))
                     throw new WrongOutputFilePathException(WRONG_OUTPUT_FILE_PATH.getMessage());
-            }
-
-            if (args[i].equals("-p") && !args[i + 1].startsWith("-")) {
-                this.prefixOutputFileName = args[i + 1];
-            }
-
-            for (FileFormatTypes fileFormatTypes : FileFormatTypes.values()) {
-                String fileType = fileFormatTypes.getFileType();
 
                 if (
                         (args[i].equals("-p") && (args[i + 1].contains("/") || args[i + 1].contains("\\"))) ||
@@ -131,6 +119,13 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
                     throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
             }
 
+            if (args[i].equals("-o") && !args[i + 1].startsWith("-")) {
+                this.outputFilePath = args[i + 1];
+            }
+
+            if (args[i].equals("-p") && !args[i + 1].startsWith("-")) {
+                this.prefixOutputFileName = args[i + 1];
+            }
 
             if (args[i].equals("-a")) {
                 this.fileWriteAppend = true;
