@@ -56,24 +56,28 @@ public final class DoubleStatistics implements Statistics<Double> {
     @Override
     public String getStatistics(String ...params) {
         String title = "СТАТИСТИКА ПО ВЕЩЕСТВЕННЫМ ЧИСЛАМ: ";
+        StringBuilder stringBuilder = new StringBuilder(title);
         List<String> paramList = Arrays.stream(params).toList();
+
         if (
                 paramList.contains("-f") ||
                 (paramList.contains("-s") && paramList.contains("-f"))
         )
-            return title +
-                   "\nКоличество записанных элементов: " + this.getValues().size() +
-                   "\nМаксимальное значение: " + this.getDoubleMax() +
-                   "\nМинимальное значение: " + this.getDoubleMin() +
-                   "\nСреднее значение: " + this.getDoubleAverage() +
-                   "\nСумма записанных элементов: " + this.getDoubleSum();
+            return stringBuilder.append("\nКоличество записанных элементов: ").append(this.getValues().size())
+                    .append("\nМаксимальное значение: ").append(this.getDoubleMax())
+                    .append("\nМинимальное значение: ").append(this.getDoubleMin())
+                    .append("\nСреднее значение: ").append(this.getDoubleAverage())
+                    .append("\nСумма записанных элементов: ").append(this.getDoubleSum())
+                    .toString();
 
         else if (paramList.contains("-s"))
-            return title +
-                   "\nКоличество записанных элементов: " + getValues().size();
+            return stringBuilder.append("\nКоличество записанных элементов: ")
+                    .append(getValues().size())
+                    .toString();
 
         else
-            return title + "Отсутствуют аргументы получения статистики";
+            return stringBuilder.append("Отсутствуют аргументы получения статистики")
+                    .toString();
     }
 
     /**
@@ -81,7 +85,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return минимальный элемент в списке;
      */
     public Double getDoubleMin() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .min(Double::compareTo)
                 .orElse(0.0);
     }
@@ -91,7 +95,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return максимальный элемент в списке;
      */
     public Double getDoubleMax() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .max(Double::compareTo)
                 .orElse(0.0);
     }
@@ -101,7 +105,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return средний элемент в списке;
      */
     public Double getDoubleAverage() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .mapToDouble(value -> value)
                 .average()
                 .orElse(0.0);
@@ -112,7 +116,7 @@ public final class DoubleStatistics implements Statistics<Double> {
      * @return сумма элементов списка вещественных чисел;
      */
     public Double getDoubleSum() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }

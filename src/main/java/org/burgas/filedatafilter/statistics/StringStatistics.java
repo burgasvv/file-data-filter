@@ -56,21 +56,25 @@ public final class StringStatistics implements Statistics<String> {
     @Override
     public String getStatistics(String ...params) {
         String title = "СТАТИСТИКА ПО СТРОКАМ: ";
+        StringBuilder stringBuilder = new StringBuilder(title);
         List<String> paramList = Arrays.stream(params).toList();
+
         if (
                 paramList.contains("-f") ||
                 (paramList.contains("-s") && paramList.contains("-f"))
         )
-            return title +
-                   "\nКоличество записанных элементов: " + this.getStrings().size() +
-                   "\nСамая короткая строка: " + this.getMinLengthString() +
-                   "\nСамая длинная строка: " + this.getMaxLengthString();
+            return stringBuilder.append("\nКоличество записанных элементов: ").append(this.getStrings().size())
+                    .append("\nСамая короткая строка: ").append(this.getMinLengthString())
+                    .append("\nСамая длинная строка: ").append(this.getMaxLengthString())
+                    .toString();
 
         else if (paramList.contains("-s"))
-            return title + "\nКоличество записанных элементов: " + this.getStrings().size();
+            return stringBuilder.append("\nКоличество записанных элементов: ").append(this.getStrings().size())
+                    .toString();
 
         else
-            return title + "Отсутствуют аргументы получения статистики";
+            return stringBuilder.append("Отсутствуют аргументы получения статистики")
+                    .toString();
     }
 
     /**
@@ -78,7 +82,7 @@ public final class StringStatistics implements Statistics<String> {
      * @return получение элемента с наименьшей длиной;
      */
     public Integer getMinLengthString() {
-        return this.strings.parallelStream()
+        return this.strings.stream()
                 .mapToInt(String::length)
                 .min()
                 .orElse(0);
@@ -89,7 +93,7 @@ public final class StringStatistics implements Statistics<String> {
      * @return получение элемента с наименьшей длиной;
      */
     public Integer getMaxLengthString() {
-        return this.strings.parallelStream()
+        return this.strings.stream()
                 .mapToInt(String::length)
                 .max()
                 .orElse(0);

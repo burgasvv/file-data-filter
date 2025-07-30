@@ -1,7 +1,7 @@
 package org.burgas.filedatafilter.statistics;
 
 import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
-import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
+import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
 
 import java.io.BufferedReader;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Класс для сбора всей статистики
  */
-public final class AllStatistics {
+public final class StatisticsService {
 
     /**
      * Ссылка на объект Обработчик аргументов;
@@ -19,21 +19,18 @@ public final class AllStatistics {
     /**
      * Ссылка на объект для чтения и записи файлов;
      */
-    private final ReadWriteFileApi readWriteFileApi;
+    private final ReadWriteTxtFile readWriteTxtFile;
 
     /**
      * Ссылки на объекты статистики разных типов данных;
      */
-    private final StringStatistics stringStatistics;
-    private final LongStatistics longStatistics;
-    private final DoubleStatistics doubleStatistics;
+    private final StringStatistics stringStatistics = new StringStatistics();
+    private final LongStatistics longStatistics = new LongStatistics();
+    private final DoubleStatistics doubleStatistics = new DoubleStatistics();
 
-    public AllStatistics(final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteFileApi readWriteFileApi) {
+    public StatisticsService(final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteTxtFile readWriteTxtFile) {
         this.argumentHandlerImpl = argumentHandlerImpl;
-        this.readWriteFileApi = readWriteFileApi;
-        this.stringStatistics = new StringStatistics();
-        this.longStatistics = new LongStatistics();
-        this.doubleStatistics = new DoubleStatistics();
+        this.readWriteTxtFile = readWriteTxtFile;
     }
 
     /**
@@ -47,8 +44,8 @@ public final class AllStatistics {
         String integers = this.argumentHandlerImpl.getOutputFilePathsMap().get("integers");
         String floats = this.argumentHandlerImpl.getOutputFilePathsMap().get("floats");
 
-        handleReaders(strings, integers, floats);
-        addElementsToStatistics(strings, integers, floats);
+        this.handleReaders(List.of(strings, integers, floats));
+        this.addElementsToStatistics(strings, integers, floats);
 
         // Получение всей статистики по всем типам данных;
         return this.stringStatistics.getStatistics(
@@ -61,17 +58,11 @@ public final class AllStatistics {
 
     /**
      * Приватный метод добавления и удаления потоков чтения для файлов;
-     * @param strings путь к файлу, содержащему строковые значения;
-     * @param integers путь к файлу, содержащему целочисленные значения;
-     * @param floats путь к файлу, содержащему вещественные значения;
+     * @param fileNames наименования результирующих файлов;
      */
-    private void handleReaders(final String strings, final String integers, final String floats) {
-
-        // Удаление потоков чтения для исходных файлов;
-        this.readWriteFileApi.removeReaders(this.argumentHandlerImpl.getInputFilePaths());
-
+    private void handleReaders(final List<String> fileNames) {
         // Добавление потоков чтения для результирующих файлов;
-        this.readWriteFileApi.addReaders(List.of(strings, integers, floats));
+        this.readWriteTxtFile.addReaders(fileNames);
     }
 
     /**
@@ -83,21 +74,21 @@ public final class AllStatistics {
     private void addElementsToStatistics(final String strings, final String integers, final String floats) {
 
         // Чтение данных из результирующего файла для строк и отправка для обработки в сервис строковой статистики;
-        BufferedReader stringsBufferedReader = this.readWriteFileApi.getReaders().get(strings);
+        BufferedReader stringsBufferedReader = this.readWriteTxtFile.getReaders().get(strings);
         if (stringsBufferedReader != null) {
             stringsBufferedReader.lines()
                     .forEach(this.stringStatistics::add);
         }
 
         // Чтение данных из результирующего файла для целых чисел и отправка для обработки в сервис целочисленной статистики;
-        BufferedReader longsBufferedReader = this.readWriteFileApi.getReaders().get(integers);
+        BufferedReader longsBufferedReader = this.readWriteTxtFile.getReaders().get(integers);
         if (longsBufferedReader != null) {
             longsBufferedReader.lines()
                     .forEach(string -> this.longStatistics.add(Long.parseLong(string)));
         }
 
         // Чтение данных из результирующего файла для вещественных чисел и отправка для обработки в сервис вещественной статистики;
-        BufferedReader floatsBufferedReader = this.readWriteFileApi.getReaders().get(floats);
+        BufferedReader floatsBufferedReader = this.readWriteTxtFile.getReaders().get(floats);
         if (floatsBufferedReader != null) {
             floatsBufferedReader.lines()
                     .forEach(string -> this.doubleStatistics.add(Double.parseDouble(string)));

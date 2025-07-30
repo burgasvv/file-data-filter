@@ -2,10 +2,11 @@ package org.burgas.filedatafilter;
 
 import org.burgas.filedatafilter.filter.FileDataFilter;
 import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
-import org.burgas.filedatafilter.readwrite.ReadWriteFileApi;
-import org.burgas.filedatafilter.statistics.AllStatistics;
+import org.burgas.filedatafilter.readwrite.ReadDocxFile;
+import org.burgas.filedatafilter.readwrite.ReadPdfFile;
+import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
+import org.burgas.filedatafilter.statistics.StatisticsService;
 
-import static java.lang.System.currentTimeMillis;
 import static java.lang.System.out;
 
 /**
@@ -15,27 +16,27 @@ public final class Main {
 
     public static void main(String[] args) {
 
-        long start = currentTimeMillis();
-        out.println();
-
         // Создание объекта обработчика аргументов;
         ArgumentHandlerImpl argumentHandlerImpl = new ArgumentHandlerImpl();
 
         // Обработка аргументов;
         argumentHandlerImpl.handleArgs(args);
 
-        // Создание объекта реализации интерфейса для чтения и записи;
-        ReadWriteFileApi readWriteFileApi = new ReadWriteFileApi();
+        // Создание объекта реализации интерфейса для чтения и записи txt файлов;
+        ReadWriteTxtFile readWriteTxtFile = new ReadWriteTxtFile();
+
+        // Создание объекта реализации интерфейса для чтения и записи pdf файлов;
+        ReadPdfFile readPdfFile = new ReadPdfFile();
+
+        // Создание объекта реализации интерфейса для чтения и записи docx файлов;
+        ReadDocxFile readDocxFile = new ReadDocxFile();
 
         // Создание объекта для фильтрации данных с последующей фильтрацией в методе filter;
-        FileDataFilter fileFilter = new FileDataFilter(argumentHandlerImpl, readWriteFileApi);
+        FileDataFilter fileFilter = new FileDataFilter(argumentHandlerImpl, readWriteTxtFile, readPdfFile, readDocxFile);
         fileFilter.filter();
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
-        AllStatistics allStatistics = new AllStatistics(argumentHandlerImpl, readWriteFileApi);
-        out.println("\n" + allStatistics.getStatistics());
-
-        long end = currentTimeMillis();
-        out.println("\nОтработка в миллисекундах: " + (end - start));
+        StatisticsService statisticsService = new StatisticsService(argumentHandlerImpl, readWriteTxtFile);
+        out.println("\n" + statisticsService.getStatistics());
     }
 }

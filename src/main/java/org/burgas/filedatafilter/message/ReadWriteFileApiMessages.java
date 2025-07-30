@@ -1,8 +1,8 @@
 package org.burgas.filedatafilter.message;
 
 /**
- * Перечисление сообщений относящихся к классу ReadWriteFileApi
- * @see org.burgas.filedatafilter.readwrite.ReadWriteFileApi
+ * Перечисление сообщений относящихся к классу ReadWriteFileApi;
+ * @see org.burgas.filedatafilter.readwrite.ReadWriteTxtFile
  */
 public enum ReadWriteFileApiMessages {
 

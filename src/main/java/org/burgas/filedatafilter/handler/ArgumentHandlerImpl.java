@@ -52,32 +52,12 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     /**
      * Динамический массив содержащий пути input файлов;
      */
-    private final List<String> inputFilePaths;
+    private final List<String> inputFilePaths = new ArrayList<>();
 
     /**
      * Ассоциативный массив содержащий пути output файлов;
      */
-    private final Map<String, String> outputFilePathsMap;
-
-    /**
-     * Конструктор со встроенной логикой обработки массива аргументов и их записи в свойства класса;
-     */
-    public ArgumentHandlerImpl() {
-        this.shortStatistics = "";
-        this.fullStatistics = "";
-        this.outputFilePath = "";
-        this.prefixOutputFileName = "";
-        this.fileWriteAppend = false;
-
-        this.inputFilePaths = new ArrayList<>();
-        this.outputFilePathsMap = new HashMap<>(
-                Map.of(
-                        "strings", "strings.txt",
-                        "integers", "integers.txt",
-                        "floats", "floats.txt"
-                )
-        );
-    }
+    private final Map<String, String> outputFilePathsMap = new HashMap<>();
 
     /**
      * Метод обработки массива аргументов и распределения по свойствам-опциям
@@ -107,7 +87,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
                         throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
                     }
 
-                    out.println("Файл для чтения: " + arg + " получен");
+                    out.println("Директория исходного файла: " + arg + " получена");
                 }
             }
         }
@@ -149,9 +129,9 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         }
 
         // Получение директорий результирующих файлов и добавление в ассоциативный массив;
-        this.outputFilePathsMap.replace("strings", outputFilePath + prefixOutputFileName + "strings.txt");
-        this.outputFilePathsMap.replace("integers", outputFilePath + prefixOutputFileName + "integers.txt");
-        this.outputFilePathsMap.replace("floats", outputFilePath + prefixOutputFileName + "floats.txt");
+        this.outputFilePathsMap.put("strings", outputFilePath + prefixOutputFileName + "strings.txt");
+        this.outputFilePathsMap.put("integers", outputFilePath + prefixOutputFileName + "integers.txt");
+        this.outputFilePathsMap.put("floats", outputFilePath + prefixOutputFileName + "floats.txt");
     }
 
     /**

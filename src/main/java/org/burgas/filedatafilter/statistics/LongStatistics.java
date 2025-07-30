@@ -56,24 +56,26 @@ public final class LongStatistics implements Statistics<Long> {
     @Override
     public String getStatistics(String ...params) {
         String title = "СТАТИСТИКА ПО ЦЕЛЫМ ЧИСЛАМ: ";
+        StringBuilder stringBuilder = new StringBuilder(title);
         List<String> paramList = Arrays.stream(params).toList();
+
         if (
                 paramList.contains("-f") ||
                 (paramList.contains("-s") && paramList.contains("-f"))
         )
-            return title +
-                   "\nКоличество записанных элементов: " + this.getValues().size() +
-                   "\nМаксимальное значение: " + this.getLongMax() +
-                   "\nМинимальное значение: " + this.getLongMin() +
-                   "\nСреднее значение: " + this.getLongAverage() +
-                   "\nСумма записанных элементов: " + this.getLongSum();
+            return stringBuilder.append("\nКоличество записанных элементов: ").append(this.getValues().size())
+                    .append("\nМаксимальное значение: ").append(this.getLongMax())
+                    .append("\nМинимальное значение: ").append(this.getLongMin())
+                    .append("\nСреднее значение: ").append(this.getLongAverage())
+                    .append("\nСумма записанных элементов: ").append(this.getLongSum()).toString();
 
         else if (paramList.contains("-s"))
-            return title +
-                   "\nКоличество записанных элементов: " + this.getValues().size();
+            return stringBuilder.append("\nКоличество записанных элементов: ")
+                    .append(this.getValues().size())
+                    .toString();
 
         else
-            return title + "Отсутствуют аргументы получения статистики";
+            return stringBuilder.append("Отсутствуют аргументы получения статистики").toString();
     }
 
     /**
@@ -81,7 +83,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return минимальный элемент в списке;
      */
     public Long getLongMin() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .mapToLong(Long::longValue)
                 .min()
                 .orElse(0L);
@@ -92,7 +94,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return максимальный элемент в списке;
      */
     public Long getLongMax() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .mapToLong(Long::longValue)
                 .max()
                 .orElse(0L);
@@ -103,7 +105,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return средний элемент в списке;
      */
     public Long getLongAverage() {
-        return (long) this.values.parallelStream()
+        return (long) this.values.stream()
                 .mapToLong(Long::longValue)
                 .average()
                 .orElse(0.0);
@@ -114,7 +116,7 @@ public final class LongStatistics implements Statistics<Long> {
      * @return сумма элементов списка целых чисел;
      */
     public Long getLongSum() {
-        return this.values.parallelStream()
+        return this.values.stream()
                 .mapToLong(Long::longValue)
                 .sum();
     }

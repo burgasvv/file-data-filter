@@ -3,7 +3,7 @@ package org.burgas.filedatafilter.filter;
 /**
  * Интерфейс описывающий фильтрацию данных
  */
-public sealed interface DataFilter permits FileDataFilter {
+public interface DataFilter {
 
     /**
      * Метод фильтрации данных

@@ -3,7 +3,7 @@ package org.burgas.filedatafilter.handler;
 /**
  * Интерфейс описывающий обработку аргументов приложения;
  */
-public sealed interface ArgumentHandler permits ArgumentHandlerImpl {
+public interface ArgumentHandler {
 
     /**
      * Метод обработки аргументов;

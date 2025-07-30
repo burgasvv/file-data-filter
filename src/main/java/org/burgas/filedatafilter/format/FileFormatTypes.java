@@ -1,10 +1,13 @@
 package org.burgas.filedatafilter.format;
 
+/**
+ * Перечисление форматов файлов;
+ */
 public enum FileFormatTypes {
 
     TXT(".txt"),
-    JAVA(".java"),
-    HTML(".html");
+    PDF(".pdf"),
+    DOCX(".docx");
 
     private final String fileType;
 
