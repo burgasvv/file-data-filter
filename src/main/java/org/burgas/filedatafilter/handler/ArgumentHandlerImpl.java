@@ -146,16 +146,24 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         this.outputFilePathsMap.put("floats", outputFilePath + prefixOutputFileName + "floats.txt");
     }
 
+    /**
+     * Метод получения приватного поля - директории результирующих файлов;
+     * @return объект строкового типа данных;
+     */
     public String getOutputFilePath() {
         return outputFilePath;
     }
 
+    /**
+     * Метод получения приватного поля - префикса наименования результирующих файлов;
+     * @return объект строкового типа данных;
+     */
     public String getPrefixOutputFileName() {
         return prefixOutputFileName;
     }
 
     /**
-     * Метод получения приватного поля - режима добавления в данных в файл;
+     * Метод получения приватного поля - режима записи данных в файл;
      * @return объект условного типа данных;
      */
     public boolean isFileWriteAppend() {
@@ -194,30 +202,58 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         return this.outputFilePathsMap;
     }
 
+    /**
+     * Метод изменения приватного поля - директории результирующих файлов;
+     * @param outputFilePath строковый параметр;
+     */
     public void setOutputFilePath(String outputFilePath) {
         this.outputFilePath = outputFilePath;
     }
 
+    /**
+     * Метод изменения приватного поля - префикса наименования результирующих файлов;
+     * @param prefixOutputFileName строковый параметр;
+     */
     public void setPrefixOutputFileName(String prefixOutputFileName) {
         this.prefixOutputFileName = prefixOutputFileName;
     }
 
+    /**
+     * Метод изменения приватного поля - аргумента краткой статистики;
+     * @param shortStatistics строковый парамер;
+     */
     public void setShortStatistics(String shortStatistics) {
         this.shortStatistics = shortStatistics;
     }
 
+    /**
+     * Метод изменения приватного поля - аргумента полной статистики;
+     * @param fullStatistics строковый парамер;
+     */
     public void setFullStatistics(String fullStatistics) {
         this.fullStatistics = fullStatistics;
     }
 
+    /**
+     * Метод изменения приватного поля - режима записи в данных в файл;
+     * @param fileWriteAppend условный параметр;
+     */
     public void setFileWriteAppend(boolean fileWriteAppend) {
         this.fileWriteAppend = fileWriteAppend;
     }
 
+    /**
+     * Метод изменения приватного поля - списка местоположений файлов для считывания;
+     * @param inputFilePaths список директорий исходных файлов;
+     */
     public void setInputFilePaths(List<String> inputFilePaths) {
         this.inputFilePaths = inputFilePaths;
     }
 
+    /**
+     * Метод изменения приватного поля - ассоциативного массива местоположений файлов для записи;
+     * @param outputFilePathsMap ассоциативный массив директорий результирующих файлов;
+     */
     public void setOutputFilePathsMap(Map<String, String> outputFilePathsMap) {
         this.outputFilePathsMap = outputFilePathsMap;
     }
