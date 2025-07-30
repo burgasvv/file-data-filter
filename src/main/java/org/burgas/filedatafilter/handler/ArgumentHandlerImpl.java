@@ -51,12 +51,12 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     /**
      * Динамический массив содержащий пути input файлов;
      */
-    private final List<String> inputFilePaths = new ArrayList<>();
+    private List<String> inputFilePaths = new ArrayList<>();
 
     /**
      * Ассоциативный массив содержащий пути output файлов;
      */
-    private final Map<String, String> outputFilePathsMap = new HashMap<>();
+    private Map<String, String> outputFilePathsMap = new HashMap<>();
 
     public ArgumentHandlerImpl() {
         this.outputFilePath = "";
@@ -146,8 +146,16 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
         this.outputFilePathsMap.put("floats", outputFilePath + prefixOutputFileName + "floats.txt");
     }
 
+    public String getOutputFilePath() {
+        return outputFilePath;
+    }
+
+    public String getPrefixOutputFileName() {
+        return prefixOutputFileName;
+    }
+
     /**
-     * Метод получения приватного поля режима добавления в данных в файл;
+     * Метод получения приватного поля - режима добавления в данных в файл;
      * @return объект условного типа данных;
      */
     public boolean isFileWriteAppend() {
@@ -155,7 +163,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     }
 
     /**
-     * Метод получения приватного поля аргумента краткой статистики;
+     * Метод получения приватного поля - аргумента краткой статистики;
      * @return объект краткой статистики строкового типа;
      */
     public String getShortStatistics() {
@@ -163,7 +171,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     }
 
     /**
-     * Метод получения приватного поля аргумента полной статистики;
+     * Метод получения приватного поля - аргумента полной статистики;
      * @return объект полной статистики строкового типа;
      */
     public String getFullStatistics() {
@@ -171,7 +179,7 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     }
 
     /**
-     * Метод получения приватного поля списка местоположений файлов для считывания;
+     * Метод получения приватного поля - списка местоположений файлов для считывания;
      * @return список строк - местоположений файлов на носителе для считывания из файла;
      */
     public List<String> getInputFilePaths() {
@@ -179,10 +187,38 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
     }
 
     /**
-     * Метод получения приватного поля: ассоциативного массива местоположений файлов для записи;
+     * Метод получения приватного поля - ассоциативного массива местоположений файлов для записи;
      * @return ассоциативный массив местоположений файлов на носителе для записи в файл;
      */
     public Map<String, String> getOutputFilePathsMap() {
         return this.outputFilePathsMap;
+    }
+
+    public void setOutputFilePath(String outputFilePath) {
+        this.outputFilePath = outputFilePath;
+    }
+
+    public void setPrefixOutputFileName(String prefixOutputFileName) {
+        this.prefixOutputFileName = prefixOutputFileName;
+    }
+
+    public void setShortStatistics(String shortStatistics) {
+        this.shortStatistics = shortStatistics;
+    }
+
+    public void setFullStatistics(String fullStatistics) {
+        this.fullStatistics = fullStatistics;
+    }
+
+    public void setFileWriteAppend(boolean fileWriteAppend) {
+        this.fileWriteAppend = fileWriteAppend;
+    }
+
+    public void setInputFilePaths(List<String> inputFilePaths) {
+        this.inputFilePaths = inputFilePaths;
+    }
+
+    public void setOutputFilePathsMap(Map<String, String> outputFilePathsMap) {
+        this.outputFilePathsMap = outputFilePathsMap;
     }
 }
