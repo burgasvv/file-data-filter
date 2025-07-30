@@ -58,6 +58,14 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
      */
     private final Map<String, String> outputFilePathsMap = new HashMap<>();
 
+    public ArgumentHandlerImpl() {
+        this.outputFilePath = "";
+        this.prefixOutputFileName = "";
+        this.shortStatistics = "";
+        this.fullStatistics = "";
+        this.fileWriteAppend = false;
+    }
+
     /**
      * Метод обработки массива аргументов и распределения по свойствам-опциям
      * @param args массив входящих аргументов;
@@ -102,17 +110,27 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
                 this.outputFilePath = args[i + 1];
             }
 
-            if (args[i].equals("-o") && args[i + 1].endsWith(".txt")) {
-                throw new WrongOutputFilePathException(WRONG_OUTPUT_FILE_PATH.getMessage());
+            for (FileFormatTypes fileFormatTypes : FileFormatTypes.values()) {
+                String fileType = fileFormatTypes.getFileType();
+
+                if (args[i].equals("-o") && args[i + 1].endsWith(fileType))
+                    throw new WrongOutputFilePathException(WRONG_OUTPUT_FILE_PATH.getMessage());
             }
 
             if (args[i].equals("-p") && !args[i + 1].startsWith("-")) {
                 this.prefixOutputFileName = args[i + 1];
             }
 
-            if (args[i].equals("-p") && (args[i + 1].contains("/") || args[i + 1].contains("\\"))) {
-                throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
+            for (FileFormatTypes fileFormatTypes : FileFormatTypes.values()) {
+                String fileType = fileFormatTypes.getFileType();
+
+                if (
+                        (args[i].equals("-p") && (args[i + 1].contains("/") || args[i + 1].contains("\\"))) ||
+                        (args[i].equals("-p") && args[i + 1].endsWith(fileType))
+                )
+                    throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
             }
+
 
             if (args[i].equals("-a")) {
                 this.fileWriteAppend = true;
