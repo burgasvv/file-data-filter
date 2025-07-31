@@ -23,7 +23,7 @@ public final class ApplicationTest {
         argumentHandler.setFileWriteAppend(false);
         argumentHandler.setFullStatistics("-f");
 
-        argumentHandler.setOutputFilePath("src/test/resources/output/");
+        argumentHandler.setOutputFilePath("src/test/resources/");
         argumentHandler.setPrefixOutputFileName("test_result_");
         argumentHandler.setInputFilePaths(
                 List.of(
@@ -33,9 +33,9 @@ public final class ApplicationTest {
         );
         argumentHandler.setOutputFilePathsMap(
                 Map.of(
-                        "strings", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "strings",
-                        "integers", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "integers",
-                        "floats", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "floats"
+                        "strings", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "strings.txt",
+                        "integers", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "integers.txt",
+                        "floats", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "floats.txt"
                 )
         );
 
