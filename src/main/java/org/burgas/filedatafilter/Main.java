@@ -16,6 +16,7 @@ public final class Main {
 
     public static void main(String[] args) {
 
+        out.println();
         // Создание объекта обработчика аргументов;
         ArgumentHandlerImpl argumentHandlerImpl = new ArgumentHandlerImpl();
 
