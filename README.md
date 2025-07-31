@@ -87,6 +87,6 @@ ___
 * > Запустить командную строку и перейти в корневую директорию приложения
 * > Выполнить команду `mvn clean package`
 * > Пример команды запуска jar файла приложения: 
-  >> `java -jar target/file-data-filter-1.0-jar-with-dependencies.jar -a -f -o src/main/resources/ -p result_
+  >> `java -jar target/file-data-filter-1.0-jar-with-dependencies.jar -a -f -o src/main/resources -p result_
 src/main/resources/input/in1.txt src/main/resources/input/in2.txt src/main/resources/input/in3.pdf src/main/resources/input/in4.docx`
 * > Получить результат выполнения
