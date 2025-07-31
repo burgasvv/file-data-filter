@@ -6,7 +6,7 @@
 + Maven 3.9.9
 
 ## Сторонние библиотеки
-+ Библиотека для чтения pdf файлов OpenPDF 5.5.13.4
++ Библиотека для чтения pdf файлов ItextPDF 5.5.13.4
     ```
     <dependency>
         <groupId>com.itextpdf</groupId>
