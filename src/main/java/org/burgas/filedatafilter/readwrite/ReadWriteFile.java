@@ -6,7 +6,7 @@ import java.io.Writer;
 /**
  * Интерфейс для работы с файлами и потоками чтения и записи;
  */
-public interface ReadWriteFileApi<T extends Reader, V extends Writer> {
+public interface ReadWriteFile<T extends Reader, V extends Writer> {
 
     /**
      * Метод добавления потока для чтения;

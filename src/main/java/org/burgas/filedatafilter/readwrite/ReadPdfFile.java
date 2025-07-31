@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Класс реализации для чтения pdf файлов;
  */
-public final class ReadPdfFile implements ReadFileApi<PdfReader> {
+public final class ReadPdfFile implements ReadFile<PdfReader> {
 
     /**
      * Метов для создания потока чтения pdf файлов;

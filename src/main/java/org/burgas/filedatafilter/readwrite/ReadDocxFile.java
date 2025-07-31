@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Класс реализации для чтения docx файлов;
  */
-public final class ReadDocxFile implements ReadFileApi<XWPFDocument> {
+public final class ReadDocxFile implements ReadFile<XWPFDocument> {
 
     /**
      * Метов для создания потока чтения docx файлов;

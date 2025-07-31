@@ -4,7 +4,7 @@ package org.burgas.filedatafilter.readwrite;
  * Интерфейс для чтения pdf и docx файлов;
  * @param <T> обобщение для потока чтения данных;
  */
-public sealed interface ReadFileApi<T> permits ReadPdfFile, ReadDocxFile {
+public sealed interface ReadFile<T> permits ReadPdfFile, ReadDocxFile {
 
     /**
      * Метода создания потока для чтения данных;

@@ -15,7 +15,7 @@ import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.*;
 /**
  * Класс реализации для работы с файлами и потоками чтения и записи;
  */
-public final class ReadWriteTxtFile implements ReadWriteFileApi<BufferedReader, BufferedWriter> {
+public final class ReadWriteTxtFile implements ReadWriteFile<BufferedReader, BufferedWriter> {
 
     /**
      * Ассоциативный массив, содержащий потоки для чтения;
