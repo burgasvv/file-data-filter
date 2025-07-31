@@ -12,7 +12,7 @@ import static java.lang.System.out;
 /**
  * Основной класс Main для запуска программы через точку входа main
  */
-public final class  Main {
+public final class Main {
 
     public static void main(String[] args) {
 
