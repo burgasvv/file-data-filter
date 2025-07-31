@@ -54,6 +54,6 @@ public final class ApplicationTest {
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
         StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
-        out.println("\n" + statisticsService.getStatistics());
+        out.println("\n" + statisticsService.getStatistics() + "\n");
     }
 }

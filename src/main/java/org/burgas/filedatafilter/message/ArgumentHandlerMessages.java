@@ -6,6 +6,7 @@ package org.burgas.filedatafilter.message;
  */
 public enum ArgumentHandlerMessages {
 
+    STATISTICS_ARGUMENT_HANDLING_FAILED("Ошибка при обработке параметров статистики: параметр статистики возможен только один"),
     ARGUMENTS_WITH_FILES_NOT_FOUND("\nАргументы с (input) файлами не найдены"),
     FILE_CREATION_FAILURE("Невозможно создать файл"),
     WRONG_OUTPUT_FILE_PREFIX("Wrong output file prefix"),

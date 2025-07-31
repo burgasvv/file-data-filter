@@ -52,10 +52,7 @@ public final class DoubleStatistics implements Statistics<Double> {
         StringBuilder stringBuilder = new StringBuilder(title);
         List<String> paramList = Arrays.stream(params).toList();
 
-        if (
-                paramList.contains("-f") ||
-                (paramList.contains("-s") && paramList.contains("-f"))
-        )
+        if (paramList.contains("-f"))
             return stringBuilder.append("\nКоличество записанных элементов: ").append(this.getValues().size())
                     .append("\nМаксимальное значение: ").append(this.getDoubleMax())
                     .append("\nМинимальное значение: ").append(this.getDoubleMin())

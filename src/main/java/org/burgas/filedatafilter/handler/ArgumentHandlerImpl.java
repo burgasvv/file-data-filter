@@ -1,9 +1,6 @@
 package org.burgas.filedatafilter.handler;
 
-import org.burgas.filedatafilter.exception.ArgumentsNotFoundException;
-import org.burgas.filedatafilter.exception.FileCreationFailureException;
-import org.burgas.filedatafilter.exception.WrongOutputFilePathException;
-import org.burgas.filedatafilter.exception.WrongOutputFilePrefixException;
+import org.burgas.filedatafilter.exception.*;
 import org.burgas.filedatafilter.format.FileFormatTypes;
 
 import java.io.BufferedReader;
@@ -138,6 +135,14 @@ public final class ArgumentHandlerImpl implements ArgumentHandler {
             if (args[i].equals("-f")) {
                 this.fullStatistics = args[i];
             }
+        }
+
+        if (this.fullStatistics.equalsIgnoreCase("-f") && this.shortStatistics.equalsIgnoreCase("-s")) {
+            throw new StatisticsArgumentsHandlingException(STATISTICS_ARGUMENT_HANDLING_FAILED.getMessage());
+        }
+
+        if (!outputFilePath.endsWith("/") || !outputFilePath.endsWith("\\")) {
+            outputFilePath = outputFilePath + "/";
         }
 
         // Получение директорий результирующих файлов и добавление в ассоциативный массив;

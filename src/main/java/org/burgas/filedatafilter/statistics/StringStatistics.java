@@ -52,10 +52,7 @@ public final class StringStatistics implements Statistics<String> {
         StringBuilder stringBuilder = new StringBuilder(title);
         List<String> paramList = Arrays.stream(params).toList();
 
-        if (
-                paramList.contains("-f") ||
-                (paramList.contains("-s") && paramList.contains("-f"))
-        )
+        if (paramList.contains("-f"))
             return stringBuilder.append("\nКоличество записанных элементов: ").append(this.getStrings().size())
                     .append("\nСамая короткая строка: ").append(this.getMinLengthString())
                     .append("\nСамая длинная строка: ").append(this.getMaxLengthString())
