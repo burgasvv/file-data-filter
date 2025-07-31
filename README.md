@@ -6,7 +6,7 @@
 + Maven 3.9.9
 
 ## Сторонние библиотеки
-+ Библиотека для чтения pdf файлов
++ Библиотека для чтения pdf файлов OpenPDF 5.5.13.4
     ```
     <dependency>
         <groupId>com.itextpdf</groupId>
@@ -14,7 +14,7 @@
         <version>5.5.13.4</version>
     </dependency>
   ```
-+ Библиотека для чтения docx файлов
++ Библиотека для чтения docx файлов Apache POI 5.2.5
     ```
     <dependency>
         <groupId>org.apache.poi</groupId>
@@ -22,7 +22,7 @@
         <version>5.2.5</version>
     </dependency>
   ```
-+ Логирование log4j
++ Логирование log4j 2.25.1
     ```
     <dependency>
         <groupId>org.apache.logging.log4j</groupId>
@@ -35,7 +35,7 @@
         <version>2.25.1</version>
     </dependency>
   ```
-+ Тестирование Junit
++ Тестирование Junit Jupiter 5.12.2
     ```
     <dependency>
         <groupId>org.junit.jupiter</groupId>
