@@ -39,6 +39,8 @@ public final class ApplicationTest {
                 )
         );
 
+        out.println("\nТестируемые файлы: " + argumentHandler.getInputFilePaths());
+
         // Создание объекта реализации интерфейса для чтения и записи txt файлов;
         ReadWriteTxtFile readWriteTxtFile = new ReadWriteTxtFile();
 
