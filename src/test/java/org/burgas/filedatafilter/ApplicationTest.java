@@ -1,7 +1,7 @@
 package org.burgas.filedatafilter;
 
 import org.burgas.filedatafilter.filter.FileDataFilter;
-import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
+import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.readwrite.ReadDocxFile;
 import org.burgas.filedatafilter.readwrite.ReadPdfFile;
 import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
@@ -19,7 +19,7 @@ public final class ApplicationTest {
     public void testing() {
 
         // Создание объекта обработчика аргументов;
-        ArgumentHandlerImpl argumentHandler = new ArgumentHandlerImpl();
+        ArgumentHandler argumentHandler = new ArgumentHandler();
         argumentHandler.setFileWriteAppend(false);
         argumentHandler.setFullStatistics("-f");
 

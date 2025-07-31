@@ -6,7 +6,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.burgas.filedatafilter.exception.ReadFileFailedException;
 import org.burgas.filedatafilter.format.FileFormatTypes;
-import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
+import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.readwrite.ReadDocxFile;
 import org.burgas.filedatafilter.readwrite.ReadPdfFile;
 import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
@@ -29,7 +29,7 @@ public final class FileDataFilter implements DataFilter {
     /**
      * Ссылка на объект Обработчик аргументов;
      */
-    private final ArgumentHandlerImpl argumentHandlerImpl;
+    private final ArgumentHandler argumentHandler;
 
     /**
      * Ссылка на объект для чтения и записи txt файлов;
@@ -50,10 +50,10 @@ public final class FileDataFilter implements DataFilter {
      * Конструктор для создания объектов и добавления файлов для считывания данных и дальнейшей обработки;
      */
     public FileDataFilter(
-            final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteTxtFile readWriteTxtFile,
+            final ArgumentHandler argumentHandler, final ReadWriteTxtFile readWriteTxtFile,
             final ReadPdfFile readPdfFile, final ReadDocxFile readDocxFile
     ) {
-        this.argumentHandlerImpl = argumentHandlerImpl;
+        this.argumentHandler = argumentHandler;
         this.readWriteTxtFile = readWriteTxtFile;
         this.readPdfFile = readPdfFile;
         this.readDocxFile = readDocxFile;
@@ -71,7 +71,7 @@ public final class FileDataFilter implements DataFilter {
             this.readWriteTxtFile.write(filename, content);
 
         else {
-            BufferedWriter fileWriter = this.readWriteTxtFile.createWriter(filename, this.argumentHandlerImpl.isFileWriteAppend());
+            BufferedWriter fileWriter = this.readWriteTxtFile.createWriter(filename, this.argumentHandler.isFileWriteAppend());
             this.readWriteTxtFile.addWriter(filename, fileWriter);
             this.readWriteTxtFile.write(filename, content);
         }
@@ -110,9 +110,9 @@ public final class FileDataFilter implements DataFilter {
     @Override
     public void filter() {
         // Получение директорий для результирующих файлов;
-        Map<String, String> outputFilePathsMap = this.argumentHandlerImpl.getOutputFilePathsMap();
+        Map<String, String> outputFilePathsMap = this.argumentHandler.getOutputFilePathsMap();
 
-        for (String inputFilePath : this.argumentHandlerImpl.getInputFilePaths()) {
+        for (String inputFilePath : this.argumentHandler.getInputFilePaths()) {
 
             if (inputFilePath.endsWith(FileFormatTypes.TXT.getFileType())) {
                 readTxtFiles(inputFilePath, outputFilePathsMap);

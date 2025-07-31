@@ -1,6 +1,6 @@
 package org.burgas.filedatafilter.statistics;
 
-import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
+import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
 
 import java.io.BufferedReader;
@@ -14,7 +14,7 @@ public final class StatisticsService {
     /**
      * Ссылка на объект Обработчик аргументов;
      */
-    private final ArgumentHandlerImpl argumentHandlerImpl;
+    private final ArgumentHandler argumentHandler;
 
     /**
      * Ссылка на объект для чтения и записи файлов;
@@ -28,8 +28,8 @@ public final class StatisticsService {
     private final LongStatistics longStatistics = new LongStatistics();
     private final DoubleStatistics doubleStatistics = new DoubleStatistics();
 
-    public StatisticsService(final ArgumentHandlerImpl argumentHandlerImpl, final ReadWriteTxtFile readWriteTxtFile) {
-        this.argumentHandlerImpl = argumentHandlerImpl;
+    public StatisticsService(final ArgumentHandler argumentHandler, final ReadWriteTxtFile readWriteTxtFile) {
+        this.argumentHandler = argumentHandler;
         this.readWriteTxtFile = readWriteTxtFile;
     }
 
@@ -40,20 +40,20 @@ public final class StatisticsService {
     public String getStatistics() {
 
         // Получение директорий результирующих файлов;
-        String strings = this.argumentHandlerImpl.getOutputFilePathsMap().get("strings");
-        String integers = this.argumentHandlerImpl.getOutputFilePathsMap().get("integers");
-        String floats = this.argumentHandlerImpl.getOutputFilePathsMap().get("floats");
+        String strings = this.argumentHandler.getOutputFilePathsMap().get("strings");
+        String integers = this.argumentHandler.getOutputFilePathsMap().get("integers");
+        String floats = this.argumentHandler.getOutputFilePathsMap().get("floats");
 
         this.handleReaders(List.of(strings, integers, floats));
         this.addElementsToStatistics(strings, integers, floats);
 
         // Получение всей статистики по всем типам данных;
         return this.stringStatistics.getStatistics(
-                               this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+                               this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics()) + "\n\n" +
                this.longStatistics.getStatistics(
-                               this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics()) + "\n\n" +
+                               this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics()) + "\n\n" +
                this.doubleStatistics.getStatistics(
-                               this.argumentHandlerImpl.getShortStatistics(), this.argumentHandlerImpl.getFullStatistics());
+                               this.argumentHandler.getShortStatistics(), this.argumentHandler.getFullStatistics());
     }
 
     /**

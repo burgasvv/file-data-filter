@@ -1,8 +1,10 @@
 package org.burgas.filedatafilter.message;
 
+import org.burgas.filedatafilter.handler.ArgumentHandler;
+
 /**
  * Перечисление сообщений относящихся к классу ArgumentHandler;
- * @see org.burgas.filedatafilter.handler.ArgumentHandlerImpl
+ * @see ArgumentHandler
  */
 public enum ArgumentHandlerMessages {
 

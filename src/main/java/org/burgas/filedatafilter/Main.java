@@ -1,7 +1,7 @@
 package org.burgas.filedatafilter;
 
 import org.burgas.filedatafilter.filter.FileDataFilter;
-import org.burgas.filedatafilter.handler.ArgumentHandlerImpl;
+import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.readwrite.ReadDocxFile;
 import org.burgas.filedatafilter.readwrite.ReadPdfFile;
 import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
@@ -18,10 +18,10 @@ public final class Main {
 
         out.println();
         // Создание объекта обработчика аргументов;
-        ArgumentHandlerImpl argumentHandlerImpl = new ArgumentHandlerImpl();
+        ArgumentHandler argumentHandler = new ArgumentHandler();
 
         // Обработка аргументов;
-        argumentHandlerImpl.handleArgs(args);
+        argumentHandler.handleArgs(args);
 
         // Создание объекта реализации интерфейса для чтения и записи txt файлов;
         ReadWriteTxtFile readWriteTxtFile = new ReadWriteTxtFile();
@@ -33,11 +33,11 @@ public final class Main {
         ReadDocxFile readDocxFile = new ReadDocxFile();
 
         // Создание объекта для фильтрации данных с последующей фильтрацией в методе filter;
-        FileDataFilter fileFilter = new FileDataFilter(argumentHandlerImpl, readWriteTxtFile, readPdfFile, readDocxFile);
+        FileDataFilter fileFilter = new FileDataFilter(argumentHandler, readWriteTxtFile, readPdfFile, readDocxFile);
         fileFilter.filter();
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
-        StatisticsService statisticsService = new StatisticsService(argumentHandlerImpl, readWriteTxtFile);
+        StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
         out.println("\n" + statisticsService.getStatistics());
     }
 }
