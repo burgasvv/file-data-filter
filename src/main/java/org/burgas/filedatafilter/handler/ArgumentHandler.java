@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.System.out;
+import static org.burgas.filedatafilter.handler.ArgumentOptions.*;
 import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.*;
 
 /**
@@ -55,6 +56,8 @@ public final class ArgumentHandler {
      */
     private Map<String, String> outputFilePathsMap = new HashMap<>();
 
+    private final List<String> options = List.of("-a", "-f", "-s", "-o", "-p");
+
     public ArgumentHandler() {
         this.outputFilePath = "";
         this.prefixOutputFileName = "";
@@ -70,6 +73,11 @@ public final class ArgumentHandler {
     public void handleArgs(String[] args) {
 
         for (String arg : args) {
+
+            if (arg.startsWith("-") && !this.options.contains(arg))
+                throw new WrongArgumentOptionException(
+                        String.format(WRONG_ARGUMENT_OPTION.getMessage(), arg)
+                );
 
             for (FileFormatTypes format : FileFormatTypes.values()) {
                 String fileType = format.getFileType();
@@ -90,7 +98,7 @@ public final class ArgumentHandler {
                         throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
                     }
 
-                    out.println("Директория исходного файла: " + arg + " получена");
+                    out.printf(INPUT_FILE_DIRECTORY_RECEIVED.getMessage(), arg);
                 }
             }
         }
@@ -105,38 +113,42 @@ public final class ArgumentHandler {
             for (FileFormatTypes fileFormatTypes : FileFormatTypes.values()) {
                 String fileType = fileFormatTypes.getFileType();
 
-                if (args[i].equals("-o") && args[i + 1].endsWith(fileType))
+                if (args[i].equals(OUTPUT_FILE_PATH.getOption()) && args[i + 1].endsWith(fileType))
                     throw new WrongOutputFilePathException(WRONG_OUTPUT_FILE_PATH.getMessage());
 
                 if (
-                        (args[i].equals("-p") && (args[i + 1].contains("/") || args[i + 1].contains("\\"))) ||
-                        (args[i].equals("-p") && args[i + 1].endsWith(fileType))
+                        (args[i].equals(OUTPUT_FILE_NAME_PREFIX.getOption()) && (args[i + 1].contains("/") || args[i + 1].contains("\\"))) ||
+                        (args[i].equals(OUTPUT_FILE_NAME_PREFIX.getOption()) && args[i + 1].endsWith(fileType))
                 )
                     throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
             }
 
-            if (args[i].equals("-o") && !args[i + 1].startsWith("-")) {
+            if (args[i].equals(OUTPUT_FILE_PATH.getOption()) && !args[i + 1].startsWith("-")) {
                 this.outputFilePath = args[i + 1];
             }
 
-            if (args[i].equals("-p") && !args[i + 1].startsWith("-")) {
+            if (args[i].equals(OUTPUT_FILE_NAME_PREFIX.getOption()) && !args[i + 1].startsWith("-")) {
                 this.prefixOutputFileName = args[i + 1];
             }
 
-            if (args[i].equals("-a")) {
+            if (args[i].equals(OUTPUT_FILE_NAME_PREFIX.getOption()) && args[i + 1].startsWith("-")) {
+                throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
+            }
+
+            if (args[i].equals(WRITE_APPEND.getOption())) {
                 this.fileWriteAppend = true;
             }
 
-            if (args[i].equals("-s")) {
+            if (args[i].equals(SHORT_STATISTICS.getOption())) {
                 this.shortStatistics = args[i];
             }
 
-            if (args[i].equals("-f")) {
+            if (args[i].equals(FULL_STATISTICS.getOption())) {
                 this.fullStatistics = args[i];
             }
         }
 
-        if (this.fullStatistics.equalsIgnoreCase("-f") && this.shortStatistics.equalsIgnoreCase("-s")) {
+        if (this.fullStatistics.equals(FULL_STATISTICS.getOption()) && this.shortStatistics.equals(SHORT_STATISTICS.getOption())) {
             throw new StatisticsArgumentsHandlingException(STATISTICS_ARGUMENT_HANDLING_FAILED.getMessage());
         }
 
@@ -219,6 +231,8 @@ public final class ArgumentHandler {
      * @param prefixOutputFileName строковый параметр;
      */
     public void setPrefixOutputFileName(String prefixOutputFileName) {
+        if (prefixOutputFileName.contains("/") || prefixOutputFileName.contains("\\"))
+            throw new WrongOutputFilePrefixException(WRONG_OUTPUT_FILE_PREFIX.getMessage());
         this.prefixOutputFileName = prefixOutputFileName;
     }
 
@@ -227,6 +241,8 @@ public final class ArgumentHandler {
      * @param shortStatistics строковый парамер;
      */
     public void setShortStatistics(String shortStatistics) {
+        if (!shortStatistics.equalsIgnoreCase("-s"))
+            throw new WrongStatisticsArgumentException(WRONG_STATISTICS_ARGUMENT.getMessage());
         this.shortStatistics = shortStatistics;
     }
 
@@ -235,6 +251,8 @@ public final class ArgumentHandler {
      * @param fullStatistics строковый парамер;
      */
     public void setFullStatistics(String fullStatistics) {
+        if (!shortStatistics.equalsIgnoreCase("-f"))
+            throw new WrongStatisticsArgumentException(WRONG_STATISTICS_ARGUMENT.getMessage());
         this.fullStatistics = fullStatistics;
     }
 
