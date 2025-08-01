@@ -241,8 +241,6 @@ public final class ArgumentHandler {
      * @param shortStatistics строковый парамер;
      */
     public void setShortStatistics(String shortStatistics) {
-        if (!shortStatistics.equalsIgnoreCase("-s"))
-            throw new WrongStatisticsArgumentException(WRONG_STATISTICS_ARGUMENT.getMessage());
         this.shortStatistics = shortStatistics;
     }
 
@@ -251,8 +249,6 @@ public final class ArgumentHandler {
      * @param fullStatistics строковый парамер;
      */
     public void setFullStatistics(String fullStatistics) {
-        if (!shortStatistics.equalsIgnoreCase("-f"))
-            throw new WrongStatisticsArgumentException(WRONG_STATISTICS_ARGUMENT.getMessage());
         this.fullStatistics = fullStatistics;
     }
 
