@@ -16,7 +16,7 @@ import static java.lang.System.out;
 public final class ApplicationTest {
 
     @Test
-    public void testing() {
+    public void test() {
 
         // Создание объекта обработчика аргументов;
         ArgumentHandler argumentHandler = new ArgumentHandler();
