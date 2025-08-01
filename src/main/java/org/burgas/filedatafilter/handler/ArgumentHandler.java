@@ -241,6 +241,8 @@ public final class ArgumentHandler {
      * @param shortStatistics строковый парамер;
      */
     public void setShortStatistics(String shortStatistics) {
+        if (shortStatistics != null && !shortStatistics.equals(SHORT_STATISTICS.getOption()))
+            throw new WrongStatisticsArgumentException(WRONG_STATISTICS_ARGUMENT.getMessage());
         this.shortStatistics = shortStatistics;
     }
 
@@ -249,6 +251,8 @@ public final class ArgumentHandler {
      * @param fullStatistics строковый парамер;
      */
     public void setFullStatistics(String fullStatistics) {
+        if (fullStatistics != null && !fullStatistics.equals(FULL_STATISTICS.getOption()))
+            throw new WrongStatisticsArgumentException(WRONG_STATISTICS_ARGUMENT.getMessage());
         this.fullStatistics = fullStatistics;
     }
 
