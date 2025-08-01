@@ -42,8 +42,8 @@ public final class Main {
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
         StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
-        String statistics = statisticsService.getStatistics();
-        out.println("\n" + statistics);
+        String statistics = "\n" + statisticsService.getStatistics() + "\n";
+        out.println(statistics);
         logger.info("\n{}", statistics);
     }
 }

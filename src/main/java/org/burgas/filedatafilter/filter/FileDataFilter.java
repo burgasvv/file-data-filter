@@ -129,7 +129,7 @@ public final class FileDataFilter implements DataFilter {
             }
         }
         String message = DISTRIBUTED_DATA_WRITTEN.getMessage();
-        out.println(message);
+        out.println("\n" + message);
         this.logger.info(message);
     }
 

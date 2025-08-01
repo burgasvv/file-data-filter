@@ -43,7 +43,7 @@ public final class ApplicationTest {
                 )
         );
         String testFilesMessage = "Тестируемые файлы: " + argumentHandler.getInputFilePaths();
-        out.println(testFilesMessage);
+        out.println("\n" + testFilesMessage);
         logger.info(testFilesMessage);
 
         // Создание объекта реализации интерфейса для чтения и записи txt файлов;
@@ -63,6 +63,6 @@ public final class ApplicationTest {
         StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
         String statistics = "\n" + statisticsService.getStatistics() + "\n";
         out.println(statistics);
-        logger.info(statistics);
+        logger.info("\n{}", statistics);
     }
 }
