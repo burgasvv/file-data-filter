@@ -2,6 +2,7 @@ package org.burgas.filedatafilter.readwrite;
 
 import org.burgas.filedatafilter.exception.ReadWriteFailedException;
 import org.burgas.filedatafilter.exception.RemoveReaderOrWriterException;
+import org.burgas.filedatafilter.exception.WrongOutputFilePathException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.System.out;
+import static org.burgas.filedatafilter.message.FileDataFilterMessages.OUTPUT_STREAM_NOT_FOUND;
 import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.*;
 
 /**
@@ -135,6 +137,9 @@ public final class ReadWriteTxtFile implements ReadWriteFile<BufferedReader, Buf
      */
     public void write(final String fileName, final String content) {
         BufferedWriter bufferedWriter = this.writers.get(fileName);
+        if (bufferedWriter == null)
+            throw new WrongOutputFilePathException(OUTPUT_STREAM_NOT_FOUND.getMessage());
+
         try {
             bufferedWriter.write(content + "\n");
             bufferedWriter.flush();

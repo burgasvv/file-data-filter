@@ -6,6 +6,7 @@ package org.burgas.filedatafilter.message;
  */
 public enum FileDataFilterMessages {
 
+    OUTPUT_STREAM_NOT_FOUND("Невозможно найти поток для записи по причине неверного пути к результирующему файлу"),
     READ_TXT_FILE_FAILED("Невозможно прочитать txt файл"),
     READ_PDF_FILE_FAILED("Невозможно прочитать pdf файл"),
     READ_DOCX_FILE_FAILED("Невозможно прочитать docx файл"),

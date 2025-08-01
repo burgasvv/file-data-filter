@@ -82,7 +82,7 @@ public final class ArgumentHandler {
                         this.inputFilePaths.add(arg);
 
                     } catch (FileNotFoundException e) {
-                        throw new org.burgas.filedatafilter.exception.FileNotFoundException(
+                        throw new WrongInputFilePathException(
                                 String.format(FILE_NOT_FOUND.getMessage(), arg)
                         );
 
@@ -251,6 +251,18 @@ public final class ArgumentHandler {
      * @param inputFilePaths список директорий исходных файлов;
      */
     public void setInputFilePaths(List<String> inputFilePaths) {
+        inputFilePaths.forEach(
+                path -> {
+                    try {
+                        new BufferedReader(new FileReader(path)).close();
+
+                    } catch (IOException e) {
+                        throw new WrongInputFilePathException(
+                                String.format(FILE_NOT_FOUND.getMessage(), path)
+                        );
+                    }
+                }
+        );
         this.inputFilePaths = inputFilePaths;
     }
 
