@@ -8,7 +8,7 @@ import org.burgas.filedatafilter.handler.ArgumentHandler;
  */
 public enum ArgumentHandlerMessages {
 
-    INPUT_FILE_DIRECTORY_RECEIVED("Директория исходного файла: %s получена\n"),
+    INPUT_FILE_DIRECTORY_RECEIVED("Директория исходного файла: %s получена"),
     WRONG_ARGUMENT_OPTION("Неверная опция аргумента: %s"),
     WRONG_STATISTICS_ARGUMENT("Неверное обозначение аргумента статистики"),
     STATISTICS_ARGUMENT_HANDLING_FAILED("Ошибка при обработке параметров статистики: параметр статистики возможен только один"),

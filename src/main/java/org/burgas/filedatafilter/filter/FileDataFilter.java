@@ -2,6 +2,8 @@ package org.burgas.filedatafilter.filter;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.burgas.filedatafilter.exception.ReadFileFailedException;
@@ -25,6 +27,8 @@ import static org.burgas.filedatafilter.message.FileDataFilterMessages.*;
  * распределять данные по их типу, и записывать в файл;
  */
 public final class FileDataFilter implements DataFilter {
+
+    private final Logger logger = LogManager.getLogger(FileDataFilter.class.getSimpleName());
 
     /**
      * Ссылка на объект Обработчик аргументов;
@@ -124,8 +128,9 @@ public final class FileDataFilter implements DataFilter {
                 readDocxFiles(inputFilePath, outputFilePathsMap);
             }
         }
-
-        out.println(DISTRIBUTED_DATA_WRITTEN.getMessage());
+        String message = DISTRIBUTED_DATA_WRITTEN.getMessage();
+        out.println(message);
+        this.logger.info(message);
     }
 
     /**

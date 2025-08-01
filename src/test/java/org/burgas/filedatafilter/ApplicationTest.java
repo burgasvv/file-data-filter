@@ -1,5 +1,7 @@
 package org.burgas.filedatafilter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.burgas.filedatafilter.filter.FileDataFilter;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.readwrite.ReadDocxFile;
@@ -14,6 +16,8 @@ import java.util.Map;
 import static java.lang.System.out;
 
 public final class ApplicationTest {
+
+    private static final Logger logger = LogManager.getLogger(ApplicationTest.class.getSimpleName());
 
     @Test
     public void test() {
@@ -38,8 +42,9 @@ public final class ApplicationTest {
                         "floats", argumentHandler.getOutputFilePath() + argumentHandler.getPrefixOutputFileName() + "floats.txt"
                 )
         );
-
-        out.println("\nТестируемые файлы: " + argumentHandler.getInputFilePaths());
+        String testFilesMessage = "Тестируемые файлы: " + argumentHandler.getInputFilePaths();
+        out.println(testFilesMessage);
+        logger.info(testFilesMessage);
 
         // Создание объекта реализации интерфейса для чтения и записи txt файлов;
         ReadWriteTxtFile readWriteTxtFile = new ReadWriteTxtFile();
@@ -56,6 +61,8 @@ public final class ApplicationTest {
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
         StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
-        out.println("\n" + statisticsService.getStatistics() + "\n");
+        String statistics = "\n" + statisticsService.getStatistics() + "\n";
+        out.println(statistics);
+        logger.info(statistics);
     }
 }

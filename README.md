@@ -89,4 +89,4 @@ ___
 * > Пример команды запуска jar файла приложения: 
   >> `java -jar target/file-data-filter-1.0-jar-with-dependencies.jar -a -f -o src/main/resources -p result_
 src/main/resources/input/in1.txt src/main/resources/input/in2.txt src/main/resources/input/in3.pdf src/main/resources/input/in4.docx`
-* > Получить результат выполнения
+* > Полученный результат расчета статистики будет выведен в консоль, а также будет записан в файл logs/application.log в корневом каталоге приложения

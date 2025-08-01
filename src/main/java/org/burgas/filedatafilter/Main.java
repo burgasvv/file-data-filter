@@ -1,5 +1,7 @@
 package org.burgas.filedatafilter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.burgas.filedatafilter.filter.FileDataFilter;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
 import org.burgas.filedatafilter.readwrite.ReadDocxFile;
@@ -13,6 +15,8 @@ import static java.lang.System.out;
  * Основной класс Main для запуска программы через точку входа main
  */
 public final class Main {
+
+    private static final Logger logger = LogManager.getLogger(Main.class.getSimpleName());
 
     public static void main(String[] args) {
 
@@ -38,6 +42,8 @@ public final class Main {
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
         StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
-        out.println("\n" + statisticsService.getStatistics());
+        String statistics = statisticsService.getStatistics();
+        out.println("\n" + statistics);
+        logger.info("\n{}", statistics);
     }
 }

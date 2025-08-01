@@ -1,5 +1,7 @@
 package org.burgas.filedatafilter.handler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.burgas.filedatafilter.exception.*;
 import org.burgas.filedatafilter.format.FileFormatTypes;
 
@@ -20,6 +22,8 @@ import static org.burgas.filedatafilter.message.ArgumentHandlerMessages.*;
  * Класс обработки аргументов программы добавленных через командную строку для чтения и записи;
  */
 public final class ArgumentHandler {
+
+    private final Logger logger = LogManager.getLogger(ArgumentHandler.class.getSimpleName());
 
     /**
      * Аргумент пути output файлов;
@@ -98,7 +102,9 @@ public final class ArgumentHandler {
                         throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
                     }
 
-                    out.printf(INPUT_FILE_DIRECTORY_RECEIVED.getMessage(), arg);
+                    String message = String.format(INPUT_FILE_DIRECTORY_RECEIVED.getMessage(), arg);
+                    out.println(message);
+                    this.logger.info(message);
                 }
             }
         }
