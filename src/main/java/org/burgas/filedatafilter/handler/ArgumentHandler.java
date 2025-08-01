@@ -5,10 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.burgas.filedatafilter.exception.*;
 import org.burgas.filedatafilter.format.FileFormatTypes;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,17 +88,13 @@ public final class ArgumentHandler {
                 // Проверка на наличие исходных файлов разных текстовых форматов
                 if (arg.endsWith(fileType)) {
 
-                    try {
-                        new BufferedReader(new FileReader(arg)).close();
+                    if (Files.exists(Paths.get(arg))) {
                         this.inputFilePaths.add(arg);
 
-                    } catch (FileNotFoundException e) {
+                    } else {
                         throw new WrongInputFilePathException(
                                 String.format(FILE_NOT_FOUND.getMessage(), arg)
                         );
-
-                    } catch (IOException e) {
-                        throw new FileCreationFailureException(FILE_CREATION_FAILURE.getMessage());
                     }
 
                     String message = String.format(INPUT_FILE_DIRECTORY_RECEIVED.getMessage(), arg);
@@ -275,18 +270,11 @@ public final class ArgumentHandler {
      * @param inputFilePaths список директорий исходных файлов;
      */
     public void setInputFilePaths(List<String> inputFilePaths) {
-        inputFilePaths.forEach(
-                path -> {
-                    try {
-                        new BufferedReader(new FileReader(path)).close();
+        for (String path : inputFilePaths) {
 
-                    } catch (IOException e) {
-                        throw new WrongInputFilePathException(
-                                String.format(FILE_NOT_FOUND.getMessage(), path)
-                        );
-                    }
-                }
-        );
+            if (!Files.exists(Path.of(path)))
+                throw new WrongInputFilePathException(String.format(FILE_NOT_FOUND.getMessage(), path));
+        }
         this.inputFilePaths = inputFilePaths;
     }
 
