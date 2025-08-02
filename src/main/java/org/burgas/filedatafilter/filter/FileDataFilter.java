@@ -38,7 +38,7 @@ public final class FileDataFilter implements DataFilter {
     /**
      * Ссылка на объект для чтения и записи txt файлов;
      */
-    private final BufferedReaderWriter readWriteFileImpl;
+    private final BufferedReaderWriter bufferedReaderWriter;
 
     /**
      * Ссылка на объект для чтения pdf файлов;
@@ -54,11 +54,11 @@ public final class FileDataFilter implements DataFilter {
      * Конструктор для создания объектов и добавления файлов для считывания данных и дальнейшей обработки;
      */
     public FileDataFilter(
-            final ArgumentHandler argumentHandler, final BufferedReaderWriter readWriteFileImpl,
+            final ArgumentHandler argumentHandler, final BufferedReaderWriter bufferedReaderWriter,
             final ReadPdfFile readPdfFile, final ReadDocxFile readDocxFile
     ) {
         this.argumentHandler = argumentHandler;
-        this.readWriteFileImpl = readWriteFileImpl;
+        this.bufferedReaderWriter = bufferedReaderWriter;
         this.readPdfFile = readPdfFile;
         this.readDocxFile = readDocxFile;
     }
@@ -71,13 +71,13 @@ public final class FileDataFilter implements DataFilter {
     private void writeToFile(String filename, String content) {
 
         // Проверка на наличие потока записи и запись в файл;
-        if (this.readWriteFileImpl.getWriters().containsKey(filename))
-            this.readWriteFileImpl.write(filename, content);
+        if (this.bufferedReaderWriter.getWriters().containsKey(filename))
+            this.bufferedReaderWriter.write(filename, content);
 
         else {
-            BufferedWriter fileWriter = this.readWriteFileImpl.createWriter(filename, this.argumentHandler.isFileWriteAppend());
-            this.readWriteFileImpl.addWriter(filename, fileWriter);
-            this.readWriteFileImpl.write(filename, content);
+            BufferedWriter fileWriter = this.bufferedReaderWriter.createWriter(filename, this.argumentHandler.isFileWriteAppend());
+            this.bufferedReaderWriter.addWriter(filename, fileWriter);
+            this.bufferedReaderWriter.write(filename, content);
         }
     }
 
@@ -192,7 +192,7 @@ public final class FileDataFilter implements DataFilter {
      * @param outputFilePathsMap директории результирующих файлов для записи;
      */
     private void readTxtFiles(String inputFilePath, Map<String, String> outputFilePathsMap) {
-        try (BufferedReader fileReader = this.readWriteFileImpl.createReader(inputFilePath)){
+        try (BufferedReader fileReader = this.bufferedReaderWriter.createReader(inputFilePath)){
 
             if (fileReader != null) {
                 // Чтение и отправка данных на типизацию и запись;
