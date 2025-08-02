@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.readwrite;
+package org.burgas.filedatafilter.readwrite.buffered;
 
 import java.io.Reader;
 import java.io.Writer;
@@ -6,7 +6,7 @@ import java.io.Writer;
 /**
  * Интерфейс для работы с файлами и потоками чтения и записи;
  */
-public interface ReadWriteFile<T extends Reader, V extends Writer> {
+public interface ReaderWriter<T extends Reader, V extends Writer> {
 
     /**
      * Метод добавления потока для чтения;

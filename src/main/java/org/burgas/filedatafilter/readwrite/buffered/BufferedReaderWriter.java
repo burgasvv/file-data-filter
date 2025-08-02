@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.readwrite;
+package org.burgas.filedatafilter.readwrite.buffered;
 
 import org.burgas.filedatafilter.exception.ReadWriteFailedException;
 import org.burgas.filedatafilter.exception.RemoveReaderOrWriterException;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.System.out;
+import static org.burgas.filedatafilter.message.BufferedReaderWriterMessages.*;
 import static org.burgas.filedatafilter.message.FileDataFilterMessages.OUTPUT_STREAM_NOT_FOUND;
-import static org.burgas.filedatafilter.message.ReadWriteFileApiMessages.*;
 
 /**
  * Класс реализации для работы с файлами и потоками чтения и записи;
  */
-public final class ReadWriteTxtFile implements ReadWriteFile<BufferedReader, BufferedWriter> {
+public final class BufferedReaderWriter implements ReaderWriter<BufferedReader, BufferedWriter> {
 
     /**
      * Ассоциативный массив, содержащий потоки для чтения;
@@ -56,7 +56,8 @@ public final class ReadWriteTxtFile implements ReadWriteFile<BufferedReader, Buf
     @Override
     public void removeReader(final String fileName) {
         try (@SuppressWarnings("unused") BufferedReader bufferedReader = this.readers.remove(fileName)) {
-            out.println("Поток чтения удален для txt файла: " + fileName);
+            String message = String.format(READER_DELETED.getMessage(), fileName);
+            out.println(message);
 
         } catch (IOException e) {
             throw new RemoveReaderOrWriterException(REMOVE_READER_FAILED.getMessage());
@@ -70,7 +71,8 @@ public final class ReadWriteTxtFile implements ReadWriteFile<BufferedReader, Buf
     @Override
     public void removeWriter(final String fileName) {
         try (@SuppressWarnings("unused") BufferedWriter bufferedReader = this.writers.remove(fileName)) {
-            out.println("Поток записи удален для txt файла: " + fileName);
+            String message = String.format(WRITER_DELETED.getMessage(), fileName);
+            out.println(message);
 
         } catch (IOException e) {
             throw new RemoveReaderOrWriterException(REMOVE_WRITER_FAILED.getMessage());

@@ -4,9 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.burgas.filedatafilter.filter.FileDataFilter;
 import org.burgas.filedatafilter.handler.ArgumentHandler;
-import org.burgas.filedatafilter.readwrite.ReadDocxFile;
-import org.burgas.filedatafilter.readwrite.ReadPdfFile;
-import org.burgas.filedatafilter.readwrite.ReadWriteTxtFile;
+import org.burgas.filedatafilter.readwrite.other.ReadDocxFile;
+import org.burgas.filedatafilter.readwrite.other.ReadPdfFile;
+import org.burgas.filedatafilter.readwrite.buffered.BufferedReaderWriter;
 import org.burgas.filedatafilter.statistics.StatisticsService;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +47,7 @@ public final class ApplicationTest {
         logger.info(testFilesMessage);
 
         // Создание объекта реализации интерфейса для чтения и записи txt файлов;
-        ReadWriteTxtFile readWriteTxtFile = new ReadWriteTxtFile();
+        BufferedReaderWriter bufferedReaderWriter = new BufferedReaderWriter();
 
         // Создание объекта реализации интерфейса для чтения и записи pdf файлов;
         ReadPdfFile readPdfFile = new ReadPdfFile();
@@ -56,11 +56,11 @@ public final class ApplicationTest {
         ReadDocxFile readDocxFile = new ReadDocxFile();
 
         // Создание объекта для фильтрации данных с последующей фильтрацией в методе filter;
-        FileDataFilter fileFilter = new FileDataFilter(argumentHandler, readWriteTxtFile, readPdfFile, readDocxFile);
+        FileDataFilter fileFilter = new FileDataFilter(argumentHandler, bufferedReaderWriter, readPdfFile, readDocxFile);
         fileFilter.filter();
 
         // Создание объекта для расчета статистических данных с дальнейшим получением статистики;
-        StatisticsService statisticsService = new StatisticsService(argumentHandler, readWriteTxtFile);
+        StatisticsService statisticsService = new StatisticsService(argumentHandler, bufferedReaderWriter);
         String statistics = "\n" + statisticsService.getStatistics() + "\n";
         out.println(statistics);
         logger.info("\n{}", statistics);

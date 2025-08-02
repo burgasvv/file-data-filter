@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.readwrite;
+package org.burgas.filedatafilter.readwrite.other;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 

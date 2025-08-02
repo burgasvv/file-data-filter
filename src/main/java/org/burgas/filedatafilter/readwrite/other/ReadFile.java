@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.readwrite;
+package org.burgas.filedatafilter.readwrite.other;
 
 /**
  * Интерфейс для чтения pdf и docx файлов;

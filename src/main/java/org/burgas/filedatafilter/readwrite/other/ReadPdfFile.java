@@ -1,4 +1,4 @@
-package org.burgas.filedatafilter.readwrite;
+package org.burgas.filedatafilter.readwrite.other;
 
 import com.itextpdf.text.pdf.PdfReader;
 
