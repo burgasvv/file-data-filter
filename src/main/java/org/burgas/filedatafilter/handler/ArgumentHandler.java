@@ -153,7 +153,7 @@ public final class ArgumentHandler {
             throw new StatisticsArgumentsHandlingException(STATISTICS_ARGUMENT_HANDLING_FAILED.getMessage());
         }
 
-        if (!outputFilePath.isBlank() && (!outputFilePath.endsWith("/") || !outputFilePath.endsWith("\\"))) {
+        if ((outputFilePath != null && !outputFilePath.isBlank()) && (!outputFilePath.endsWith("/") || !outputFilePath.endsWith("\\"))) {
             outputFilePath = outputFilePath + "/";
         }
 
